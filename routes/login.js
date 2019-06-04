@@ -10,34 +10,52 @@ const bcrypt = require('bcryptjs')
 router.post("/", async (req,res) =>{
     try {
         
-        const foundUser = await Client.findOne({username: req.body.username})
-       
-            if(foundUser.validPassword(req.body.password)) {
-          
-                
-                req.session.logged = true;
-                req.session.username = req.body.username;
-                req.session.userDbId = foundUser._id;
-                
-                res.json({
-                    user: foundUser,
-                    status: 200,
-                    success: foundUser ? true : false
-                })
-            } else {
-                req.session.message = "Invalid Username or Password"
-                res.json({
-                    message: req.session.message
-                })
-            }
+        const foundClient = await Client.findOne({username: req.body.username})
+        const foundBusiness = await Business.findOne({name: req.body.name})
+      
+        if (foundClient){
+          if(foundClient.validPassword(req.body.password)) {
+        
+              
+              req.session.logged = true;
+              req.session.username = req.body.username;
+              req.session.userDbId = foundClient._id;
+              
+              res.json({
+                  user: foundClient,
+                  status: 200,
+                  success: foundClient ? true : false
+              })
+          } else {
+              req.session.message = "Invalid Username or Password"
+              res.json({
+                  message: req.session.message
+              })
+          }
+        } else if (foundBusiness) {
+            if (foundBusiness.validPassword(req.body.password)) {
+              req.session.logged = true;
+              req.session.username = req.body.username;
+              req.session.businessDbId = foundBusiness._id;
+              
+              res.json({
+                  user: foundBusiness,
+                  status: 200,
+                  success: foundBusiness ? true : false
+              })
+          } else {
+              req.session.message = "Invalid Username or Password"
+              res.json({
+                  message: req.session.message
+              })
+          }
+        }
     } catch (error) {
         req.session.message = "Invalid Username or Password"
         res.json({
             message: req.session.message
         })
     }
-
-   
 })
 // CREATE
 router.post('/new', async (req, res) => {

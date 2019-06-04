@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const bcrypt = require('bcryptjs')
 const Business = require("../models/Business")
 
 
@@ -15,7 +15,6 @@ router.get('/', async (req, res) => {
   } catch (error) {
     res.json({error})
   }
-
   return res.json({data: 'Received a GET HTTP method business'});
 });
 
@@ -34,9 +33,17 @@ router.get("/:id", async (req,res)=>{
 
 // EDIT
 router.put('/:id', async (req, res) => {
+  if(!req.body.password){
+    delete req.body.password
+  } else {
+    req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)) 
+  }
   try {
     const editedBusiness = await Business.findByIdAndUpdate(req.params.id, req.body, {new:true});
-    res.json({editedBusiness});
+    editedBusiness.save()
+    res.json({
+      editedBusiness
+    });
   } catch (error) {
     res.json({error})
   }
@@ -54,10 +61,10 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/new', async (req, res) => {
   try {
-    const newUser = await Client.create(req.body)
+    const newBusiness = await Business.create(req.body)
     res.json({
-      newUser,
-      success: newUser ? true : false
+      newBusiness,
+      success: newBusiness ? true : false
     })
     
   } catch (error) {

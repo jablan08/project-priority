@@ -8,7 +8,10 @@ const ClientSchema = new mongoose.Schema({
     business: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Business"
-    }], 
+    }],
+    company: {type: String, required: true},
+    email: {type: String, unique: true}
+
 })
 
 ClientSchema.methods.hashPassword = function(password){

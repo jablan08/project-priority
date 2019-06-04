@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs')
 
 const Business = require("../models/Business")
 
@@ -9,22 +10,22 @@ const Business = require("../models/Business")
 router.get('/', async (req, res) => {
   
   try {
-    const businesses = await Business.find({});
-    res.json({businesses})
+    const clients = await Client.find({});
+    res.json({clients})
     
   } catch (error) {
     res.json({error})
   }
 
-  return res.json({data: 'Received a GET HTTP method business'});
+  return res.json({data: 'Received a GET HTTP method client'});
 });
 
 // SHOW
 router.get("/:id", async (req,res)=>{
   try {
-    const business = await Business.findById(req.params.id)
+    const client = await Client.findById(req.params.id)
     
-    res.json({business})
+    res.json({client})
   } catch (error) {
     res.json(error)
   }
