@@ -15,15 +15,15 @@ const postSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Business",
     }], 
-    datePosted: { type: Date },
+    datePosted: { type : Date, default: Date.now },
     comments: [{
         postedBy: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Client",
         }],
-        datePosted: { type: Date }, 
+        datePosted: { type : Date, default: Date.now }, 
         text: { type: String, required: true} 
-    }], 
+    }] 
 })
 
 const Post = mongoose.model("Post", postSchema);

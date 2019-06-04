@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs")
 const BusinessSchema = new mongoose.Schema({
     name: {type: String, unique: true},
     password: {type: String, required: true},
-    role: String,
     clients: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Client",

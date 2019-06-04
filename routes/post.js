@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const Client = require("../models/Client")
 const Business = require("../models/Business")
+const Post = require("../models/Post")
 
 
 
@@ -9,22 +11,22 @@ const Business = require("../models/Business")
 router.get('/', async (req, res) => {
   
   try {
-    const businesses = await Business.find({});
-    res.json({businesses})
+    const posts = await Post.find({});
+    res.json({posts})
     
   } catch (error) {
     res.json({error})
   }
 
-  return res.json({data: 'Received a GET HTTP method business'});
+  return res.json({data: 'Received a GET HTTP method post'});
 });
 
 // SHOW
 router.get("/:id", async (req,res)=>{
   try {
-    const business = await Business.findById(req.params.id)
+    const post = await Post.findById(req.params.id)
     
-    res.json({business})
+    res.json({post})
   } catch (error) {
     res.json(error)
   }
@@ -35,8 +37,8 @@ router.get("/:id", async (req,res)=>{
 // EDIT
 router.put('/:id', async (req, res) => {
   try {
-    const editedBusiness = await Business.findByIdAndUpdate(req.params.id, req.body, {new:true});
-    res.json({editedBusiness});
+    const editedPost = await Post.findByIdAndUpdate(req.params.id, req.body, {new:true});
+    res.json({editedPost});
   } catch (error) {
     res.json({error})
   }
@@ -45,8 +47,8 @@ router.put('/:id', async (req, res) => {
 // DELETE USER
 router.delete('/:id', async (req, res) => {
   try {
-    const deletedBusiness = await Business.findByIdAndRemove(req.params.id);  
-    res.json({deletedBusiness})  
+    const deletedPost = await Post.findByIdAndRemove(req.params.id);  
+    res.json({deletedPost})  
     } catch (error) {
       res.json({error})
     }
@@ -54,10 +56,10 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/new', async (req, res) => {
   try {
-    const newUser = await Client.create(req.body)
+    const newPost = await Post.create(req.body)
     res.json({
-      newUser,
-      success: newUser ? true : false
+      newPost,
+      success: newPost ? true : false
     })
     
   } catch (error) {
@@ -79,7 +81,7 @@ router.post('/logout', (req, res) => {
 // ADD TO WATCHLIST
 router.post("/add", async (req,res)=> {
   try {
-    const foundUser = await Business.findById(req.session.userDbId)
+    const foundUser = await Post.findById(req.session.userDbId)
 
     const team ={
       title:req.body.name,
@@ -103,7 +105,7 @@ router.post("/add", async (req,res)=> {
 // DELETE FROM WATCHLIST
 router.delete('/watchlist/:id', async (req, res) => {
   try {
-    const foundUser = await Business.findById(req.session.userDbId);
+    const foundUser = await Post.findById(req.session.userDbId);
    
     foundUser.watchList.splice(req.params.id,1)
     await foundUser.save();

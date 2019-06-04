@@ -58,18 +58,18 @@ router.post("/", async (req,res) =>{
     }
 })
 // CREATE
-router.post('/new', async (req, res) => {
-    try {
-      const newUser = await Client.create(req.body)
-      res.json({
-        newUser,
-        success: newUser ? true : false
-      })
+// router.post('/new', async (req, res) => {
+//     try {
+//       const newUser = await Client.create(req.body)
+//       res.json({
+//         newUser,
+//         success: newUser ? true : false
+//       })
       
-    } catch (error) {
-      res.json(error)
-    } 
-  });
+//     } catch (error) {
+//       res.json(error)
+//     } 
+//   });
 
 router.post('/logout', (req, res) => {
     req.session.destroy((err) => {

@@ -11,6 +11,8 @@ const session = require("express-session");
 
 const loginRouter = require("./routes/login");
 const businessRouter = require("./routes/business");
+const clientRouter = require("./routes/clients");
+const postRouter = require("./routes/post");
 
 const app = express();
 require("dotenv").config();
@@ -40,6 +42,8 @@ app.use(cors(corsOptions));
 
 app.use("/login", loginRouter);
 app.use("/business", businessRouter);
+app.use("/clients", clientRouter);
+app.use("/posts", postRouter);
 
 app.use((req, res, next)=>{
   next(createError(404));

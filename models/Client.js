@@ -5,12 +5,12 @@ const ClientSchema = new mongoose.Schema({
     name: {type: String, unique: true},
     password: {type: String, required: true},
     role: String,
-    business: [{
+    business: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Business"
-    }],
+    },
     company: {type: String, required: true},
-    email: {type: String, unique: true}
+    email: {type: String, unique: true, required: true}
 
 })
 
