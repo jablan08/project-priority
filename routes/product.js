@@ -15,7 +15,6 @@ router.get('/', async (req, res) => {
   } catch (error) {
     res.json({error})
   }
-  return res.json({data: 'Received a GET HTTP method product'});
 });
 
 // SHOW
@@ -61,6 +60,7 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/new', async (req, res) => {
   try {
+    console.log(req.body)
     const newProduct = await Product.create(req.body)
     console.log(newProduct)
     res.json({

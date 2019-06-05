@@ -78,18 +78,28 @@ class Register extends Component {
     }    
     handleClientSubmit = async (e) => {
         e.preventDefault();
+        const { name, password, role, company, email, productId } = this.state
+        const obj = {
+            name: name,
+            password: password,
+            role: role,
+            email: email,
+            company: company,
+            productId: productId
+        }
         try {
             const createUser = await fetch("/clients/new", {
                 method: "POST",
                 credentials: "include",
-                body: JSON.stringify(this.state),
+                body: JSON.stringify(obj),
                 headers: {
                     "Content-Type": "application/json"
                 }
             })
             const parsedResponse = await createUser.json();
+            console.log(parsedResponse)
                 if (parsedResponse.success) {
-                    this.props.setCurrentUser(parsedResponse.newUser)
+                    this.props.setCurrentUser(parsedResponse.newClient)
             
                     this.setState({
                         logged: true
@@ -102,7 +112,7 @@ class Register extends Component {
     
     render() { 
         
-        const { name, password, logged, client, product, productId, productFetch } = this.state
+        const { name, password, logged, client, product, productFetch, email, role, company } = this.state
         return ( 
             <>
                 <div>
@@ -122,17 +132,22 @@ class Register extends Component {
                             handleProductSubmit = {this.handleProductSubmit}
                             name = {name}
                             password = {password}
+                            email = {email}
                         />
                     : client && productFetch
                         ? logged
                             ? 
-                            <Redirect to={`/product/${this.props.currentUser._id}`}/>
+                            <Redirect to={`/clients/${this.props.currentUser._id}`}/>
                             :
                             <ClientRegisterForm
                             handleChange = {this.handleChange}
                             handleClientSubmit = {this.handleClientSubmit}
                             name = {name}
                             password = {password}
+                            email = {email}
+                            role = {role}
+                            company = {company}
+                            productFetch = {productFetch}
                             />
                         
                         : client
@@ -140,6 +155,7 @@ class Register extends Component {
                         <GetProductForm
                         handleChange = {this.handleChange}
                         handleGetProduct = {this.handleGetProduct}
+                        
                         />
                 
                 }
@@ -158,7 +174,9 @@ class Register extends Component {
         <button type="submit">SUBMIT </button>
     </form>
     
- const ClientRegisterForm = ({handleChange, handleClientSubmit, name, password, role, company, email}) =>
+ const ClientRegisterForm = ({handleChange, handleClientSubmit, name, password, role, company, email, productFetch}) =>
+    <>
+    <h2>You are registering for {productFetch}</h2>
     <form onSubmit={e => handleClientSubmit(e)}>
         <label htmlFor="name">Name</label>
         <input type="text" name="name" onChange={handleChange} value={name}/>
@@ -172,7 +190,8 @@ class Register extends Component {
         <input type="email" name="email" onChange={handleChange} value={email}/>
         <button type="submit">SUBMIT </button>
     </form>
-const GetProductForm = ({handleChange, handleGetProduct}) => 
+    </>
+const GetProductForm = ({handleChange, handleGetProduct}) =>
     <form onSubmit={e => handleGetProduct(e)}>
         <label htmlFor="productId">Enter the unique product ID of that your business is using!</label>
         <input type="text" name="productId" onChange={handleChange}/>

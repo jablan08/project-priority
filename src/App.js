@@ -11,6 +11,12 @@ class App extends Component {
     currentUser: null
   }
 
+  setCurrentUser = (user) => {
+    this.setState({
+      currentUser: user
+      
+    })
+  }
   doLogout= async () => {
     await fetch("/login/logout", {
     credentials: "include",

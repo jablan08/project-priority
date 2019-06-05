@@ -62,7 +62,13 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/new', async (req, res) => {
   try {
+    console.log(req.body)
     const newClient = await Client.create(req.body)
+    const findProduct = await Product.findById(req.body.productId)
+    console.log(findProduct, "hittt")
+    console.log(newClient)
+    findProduct.clients.push(newClient)
+    findProduct.save()
     res.json({
       newClient,
       success: newClient ? true : false
