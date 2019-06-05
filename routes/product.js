@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs')
-const Business = require("../models/Business")
+const Product = require("../models/Product")
 
 
 
@@ -9,21 +9,21 @@ const Business = require("../models/Business")
 router.get('/', async (req, res) => {
   
   try {
-    const businesses = await Business.find({});
-    res.json({businesses})
+    const products = await Product.find({});
+    res.json({products})
     
   } catch (error) {
     res.json({error})
   }
-  return res.json({data: 'Received a GET HTTP method business'});
+  return res.json({data: 'Received a GET HTTP method product'});
 });
 
 // SHOW
 router.get("/:id", async (req,res)=>{
   try {
-    const business = await Business.findById(req.params.id)
+    const product = await Product.findById(req.params.id)
     
-    res.json({business})
+    res.json({product})
   } catch (error) {
     res.json(error)
   }
@@ -39,10 +39,10 @@ router.put('/:id', async (req, res) => {
     req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)) 
   }
   try {
-    const editedBusiness = await Business.findByIdAndUpdate(req.params.id, req.body, {new:true});
-    editedBusiness.save()
+    const editedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {new:true});
+    editedProduct.save()
     res.json({
-      editedBusiness
+      editedProduct
     });
   } catch (error) {
     res.json({error})
@@ -52,8 +52,8 @@ router.put('/:id', async (req, res) => {
 // DELETE USER
 router.delete('/:id', async (req, res) => {
   try {
-    const deletedBusiness = await Business.findByIdAndRemove(req.params.id);  
-    res.json({deletedBusiness})  
+    const deletedProduct = await Product.findByIdAndRemove(req.params.id);  
+    res.json({deletedProduct})  
     } catch (error) {
       res.json({error})
     }
@@ -61,10 +61,11 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/new', async (req, res) => {
   try {
-    const newBusiness = await Business.create(req.body)
+    const newProduct = await Product.create(req.body)
+    console.log(newProduct)
     res.json({
-      newBusiness,
-      success: newBusiness ? true : false
+      newProduct,
+      success: newProduct ? true : false
     })
     
   } catch (error) {
@@ -86,7 +87,7 @@ router.post('/logout', (req, res) => {
 // ADD TO WATCHLIST
 router.post("/add", async (req,res)=> {
   try {
-    const foundUser = await Business.findById(req.session.userDbId)
+    const foundUser = await Product.findById(req.session.userDbId)
 
     const team ={
       title:req.body.name,
@@ -110,7 +111,7 @@ router.post("/add", async (req,res)=> {
 // DELETE FROM WATCHLIST
 router.delete('/watchlist/:id', async (req, res) => {
   try {
-    const foundUser = await Business.findById(req.session.userDbId);
+    const foundUser = await Product.findById(req.session.userDbId);
    
     foundUser.watchList.splice(req.params.id,1)
     await foundUser.save();
@@ -121,19 +122,6 @@ router.delete('/watchlist/:id', async (req, res) => {
   } catch(err) {
     res.send(err)
   }
-});
-
-router.post('/new', async (req, res) => {
-  try {
-    const newUser = await Client.create(req.body)
-    res.json({
-      newUser,
-      success: newUser ? true : false
-    })
-    
-  } catch (error) {
-    res.json(error)
-  } 
 });
 
 router.post('/logout', (req, res) => {

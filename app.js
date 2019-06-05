@@ -10,7 +10,7 @@ const session = require("express-session");
 
 
 const loginRouter = require("./routes/login");
-const businessRouter = require("./routes/business");
+const productRouter = require("./routes/product");
 const clientRouter = require("./routes/clients");
 const postRouter = require("./routes/post");
 
@@ -32,7 +32,7 @@ app.use(session({
 }));
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "http://localhost:8889",
   credentials: true,
   optionsSuccessStatus: 200 
 }
@@ -41,7 +41,7 @@ app.use(cors(corsOptions));
 
 
 app.use("/login", loginRouter);
-app.use("/business", businessRouter);
+app.use("/product", productRouter);
 app.use("/clients", clientRouter);
 app.use("/posts", postRouter);
 

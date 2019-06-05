@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs')
 
 const Client = require("../models/Client")
-const Business = require("../models/Business")
+const Product = require("../models/Product")
 
 
 

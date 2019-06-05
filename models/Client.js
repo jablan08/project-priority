@@ -5,9 +5,9 @@ const ClientSchema = new mongoose.Schema({
     name: {type: String, unique: true},
     password: {type: String, required: true},
     role: String,
-    business: {
+    product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Business"
+        ref: "Product"
     },
     company: {type: String, required: true},
     email: {type: String, unique: true, required: true}

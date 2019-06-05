@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Client = require("../models/Client")
-const Business = require("../models/Business")
+const Business = require("../models/Product")
 const Post = require("../models/Post")
 
 

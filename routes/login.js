@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Client = require("../models/Client")
-const Business = require("../models/Business")
+const Product = require("../models/Product")
 const bcrypt = require('bcryptjs')
 
 
@@ -10,8 +10,8 @@ const bcrypt = require('bcryptjs')
 router.post("/", async (req,res) =>{
     try {
         
-        const foundClient = await Client.findOne({username: req.body.username})
-        const foundBusiness = await Business.findOne({name: req.body.name})
+        const foundClient = await Client.findOne({username: req.body.email})
+        const foundProduct = await Product.findOne({email: req.body.email})
       
         if (foundClient){
           if(foundClient.validPassword(req.body.password)) {
@@ -32,16 +32,17 @@ router.post("/", async (req,res) =>{
                   message: req.session.message
               })
           }
-        } else if (foundBusiness) {
-            if (foundBusiness.validPassword(req.body.password)) {
+        } else if (foundProduct) {
+            console.log(foundProduct)
+            if (foundProduct.validPassword(req.body.password)) {
               req.session.logged = true;
               req.session.username = req.body.username;
-              req.session.businessDbId = foundBusiness._id;
+              req.session.productDbId = foundProduct._id;
               
               res.json({
-                  user: foundBusiness,
+                  user: foundProduct,
                   status: 200,
-                  success: foundBusiness ? true : false
+                  success: foundProduct ? true : false
               })
           } else {
               req.session.message = "Invalid Username or Password"

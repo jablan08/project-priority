@@ -11,9 +11,9 @@ const postSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Client",
     }], 
-    business: [{
+    product: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Business",
+        ref: "Product",
     }], 
     datePosted: { type : Date, default: Date.now },
     comments: [{
