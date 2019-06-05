@@ -1,0 +1,15 @@
+.active {
+    color:darksalmon;
+}
+
+.message {
+    font-size: 3rem; 
+}
+
+.navButton {
+    background: none;
+    background: none;
+    font-size: 2.3rem;
+    margin: 5px;
+
+}

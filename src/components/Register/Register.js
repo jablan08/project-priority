@@ -85,7 +85,7 @@ class Register extends Component {
             role: role,
             email: email,
             company: company,
-            productId: productId
+            product: productId
         }
         try {
             const createUser = await fetch("/clients/new", {

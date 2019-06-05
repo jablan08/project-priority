@@ -17,6 +17,7 @@ class Login extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+    
         try {
             const login = await fetch("/login", {
                 method: "POST",

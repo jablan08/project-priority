@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import * as routes from "./constants/routes";
-// import NavBar from "./components/NavBar/NavBar";
+import NavBar from "./components/Navbar/NavBar";
 import Login from "./components/Login/Login";
 import './App.css';
 import Register from "./components/Register/Register";
@@ -34,7 +34,7 @@ class App extends Component {
     const { currentUser } = this.state
     return ( 
       <>
-        {/* <NavBar doLogout={this.doLogout} currentUser={currentUser}/>  */}
+        <NavBar doLogout={this.doLogout} currentUser={currentUser}/> 
         <Switch>
           <Route exact path={routes.ROOT} render={()=> <div>Hi</div> }/>
           

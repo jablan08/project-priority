@@ -16,7 +16,6 @@ router.get('/', async (req, res) => {
   } catch (error) {
     res.json({error})
   }
-  return res.json({data: 'Received a GET HTTP method client'});
 });
 
 // SHOW
@@ -64,10 +63,11 @@ router.post('/new', async (req, res) => {
   try {
     console.log(req.body)
     const newClient = await Client.create(req.body)
-    const findProduct = await Product.findById(req.body.productId)
+    const findProduct = await Product.findById(req.body.product)
     console.log(findProduct, "hittt")
-    console.log(newClient)
+    newClient.product = findProduct
     findProduct.clients.push(newClient)
+    console.log(newClient)
     findProduct.save()
     res.json({
       newClient,
