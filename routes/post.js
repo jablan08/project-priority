@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Client = require("../models/Client")
-const Business = require("../models/Product")
+const Product = require("../models/Product")
 const Post = require("../models/Post")
 
 
@@ -18,7 +18,6 @@ router.get('/', async (req, res) => {
     res.json({error})
   }
 
-  return res.json({data: 'Received a GET HTTP method post'});
 });
 
 // SHOW
@@ -56,7 +55,18 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/new', async (req, res) => {
   try {
-    const newPost = await Post.create(req.body)
+    // req.body.clients=[]
+    // req.body.product =[]
+    console.log(req.body)
+    console.log(req.body.currentUser)
+    // console.log(req.session)
+    const findClient = await Client.findById(req.body.currentUser._id)
+    console.log(findClient, "foundclient==========================")
+    const findProduct = await Product.findById(req.body.currentUser.product)
+    console.log(findProduct, "foundProducy================")
+    req.body.clients = findClient
+    req.body.product = findProduct
+    const newPost =  await Post.create(req.body)
     res.json({
       newPost,
       success: newPost ? true : false

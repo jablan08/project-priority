@@ -19,7 +19,7 @@ handleSubmit = async (e) => {
         currentUser: this.props.currentUser 
     }
     try {
-        const post = await fetch("/post", {
+        const post = await fetch("/posts/new", {
             method: "POST",
             credentials: "include",
             body: JSON.stringify(obj),
@@ -28,17 +28,12 @@ handleSubmit = async (e) => {
             }
         })
         const parsedResponse = await post.json();
-        // if (parsedResponse.success) {
-            
-        //     this.props.setCurrentUser(parsedResponse.user)
-        //     this.setState({
-        //         logged: true,
-        //     })
-        // } else {
-        //     this.setState({
-        //         message: parsedResponse.message
-        //     })
-        // }
+        console.log(parsedResponse, "response of post")
+        if (parsedResponse.success) {
+            console.log("worked")
+        } else {
+            console.log("didnt work")
+        }
     } catch (error) {
         console.log(error)
     }

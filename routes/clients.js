@@ -21,9 +21,13 @@ router.get('/', async (req, res) => {
 // SHOW
 router.get("/:id", async (req,res)=>{
   try {
+    const findProduct = await Product.findOne({"clients": req.params.id})
     const client = await Client.findById(req.params.id)
     
-    res.json({client})
+    res.json({
+        client,
+        findProduct
+    })
   } catch (error) {
     res.json(error)
   }
@@ -52,8 +56,15 @@ router.put('/:id', async (req, res) => {
 // DELETE USER
 router.delete('/:id', async (req, res) => {
   try {
-    const deletedClient = await Client.findByIdAndRemove(req.params.id);  
-    res.json({deletedClient})  
+    const findProduct = await Product.findOne({"clients": req.params.id})
+    const deleteClient = await Client.findByIdAndRemove(req.params.id);  
+    // const [foundProduct, deletedClient] = await Promise.all([findProduct, deleteClient])
+    findProduct.clients.remove(req.params.id)
+    await findProduct.save()
+    res.json({
+        deleteClient,
+        findProduct
+    })  
     } catch (error) {
       res.json({error})
     }
@@ -66,9 +77,8 @@ router.post('/new', async (req, res) => {
     req.body.product = findProduct
     const newClient = await Client.create(req.body) 
     console.log(findProduct, "hittt before")
-    // newClient.product = findProduct
     findProduct.clients.push(newClient)
-    findProduct.save()
+    await findProduct.save()
     console.log(newClient, "client")
     console.log(findProduct, "product")
     res.json({

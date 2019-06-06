@@ -10,7 +10,7 @@ const bcrypt = require('bcryptjs')
 router.post("/", async (req,res) =>{
     try {
         
-        const foundClient = await Client.findOne({username: req.body.email})
+        const foundClient = await Client.findOne({email: req.body.email})
         const foundProduct = await Product.findOne({email: req.body.email})
       
         if (foundClient){
@@ -18,9 +18,9 @@ router.post("/", async (req,res) =>{
         
               
               req.session.logged = true;
-              req.session.username = req.body.username;
+              req.session.email = req.body.email;
               req.session.userDbId = foundClient._id;
-              
+              console.log(req.session)
               res.json({
                   user: foundClient,
                   status: 200,
@@ -36,7 +36,7 @@ router.post("/", async (req,res) =>{
             console.log(foundProduct)
             if (foundProduct.validPassword(req.body.password)) {
               req.session.logged = true;
-              req.session.username = req.body.username;
+              req.session.email = req.body.email;
               req.session.productDbId = foundProduct._id;
               
               res.json({

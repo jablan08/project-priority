@@ -25,6 +25,7 @@ const NavBar = ({currentUser, doLogout}) =>
     <div className="nav">
         <Title className="title">Project Priority</Title>
             <Nav exact to={routes.ROOT} activeClassName="active">HOME</Nav>
+            <Nav exact to={routes.POST} activeClassName="active">POST</Nav>
             {
                 currentUser
                 ? <span className="message"> <button onClick={doLogout} className="navButton" >LOGOUT</button></span>
