@@ -68,6 +68,7 @@ router.post('/new', async (req, res) => {
     newClient.product = findProduct
     findProduct.clients.push(newClient)
     console.log(newClient)
+    newClient.save()
     findProduct.save()
     res.json({
       newClient,

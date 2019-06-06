@@ -23,11 +23,11 @@ const Title = styled.h1`
 const NavBar = ({currentUser, doLogout}) =>
     
     <div className="nav">
-        <Title className="title">League of eSports Legends</Title>
+        <Title className="title">Project Priority</Title>
             <Nav exact to={routes.ROOT} activeClassName="active">HOME</Nav>
             {
                 currentUser
-                ? <span className="message"> <Nav to={`${routes.USERS}/${currentUser._id}`}> ACCOUNT </Nav> Hello {currentUser.username} <button onClick={doLogout} className="navButton" >LOGOUT</button></span>
+                ? <span className="message"> <button onClick={doLogout} className="navButton" >LOGOUT</button></span>
                 : [<Nav key={1} to={'/login'} activeClassName="active">LOGIN </Nav>,
                 <Nav key={2} to={routes.REGISTER} activeClassName="active">REGISTER </Nav> ]   
             }

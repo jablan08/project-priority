@@ -3,6 +3,7 @@ import { Switch, Route, withRouter } from "react-router-dom";
 import * as routes from "./constants/routes";
 import NavBar from "./components/Navbar/NavBar";
 import Login from "./components/Login/Login";
+import Post from "./components/Post/Post"
 import './App.css';
 import Register from "./components/Register/Register";
 
@@ -37,7 +38,7 @@ class App extends Component {
         <NavBar doLogout={this.doLogout} currentUser={currentUser}/> 
         <Switch>
           <Route exact path={routes.ROOT} render={()=> <div>Hi</div> }/>
-          
+          <Route exact path={routes.POST} render={()=> <Post/>}/>
           <Route exact path={routes.REGISTER} render={() => <Register currentUser={currentUser} setCurrentUser={this.setCurrentUser}/>} />
           <Route exact path={routes.LOGIN} render={()=> <Login currentUser={currentUser} setCurrentUser={this.setCurrentUser}/>} />
           <Route render={()=> <div>You're LOST</div>}/>
