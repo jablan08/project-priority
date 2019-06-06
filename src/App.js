@@ -38,7 +38,7 @@ class App extends Component {
         <NavBar doLogout={this.doLogout} currentUser={currentUser}/> 
         <Switch>
           <Route exact path={routes.ROOT} render={()=> <div>Hi</div> }/>
-          <Route exact path={routes.POST} render={()=> <Post/>}/>
+          <Route exact path={routes.POST} render={()=> <Post currentUser={currentUser}/>}/>
           <Route exact path={routes.REGISTER} render={() => <Register currentUser={currentUser} setCurrentUser={this.setCurrentUser}/>} />
           <Route exact path={routes.LOGIN} render={()=> <Login currentUser={currentUser} setCurrentUser={this.setCurrentUser}/>} />
           <Route render={()=> <div>You're LOST</div>}/>
@@ -47,5 +47,5 @@ class App extends Component {
     );
   }
 }
- 
+
 export default withRouter(App);

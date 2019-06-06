@@ -61,20 +61,20 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/new', async (req, res) => {
   try {
-    console.log(req.body)
-    const newClient = await Client.create(req.body)
+    console.log(req.body, "da body")
     const findProduct = await Product.findById(req.body.product)
-    console.log(findProduct, "hittt")
-    newClient.product = findProduct
+    req.body.product = findProduct
+    const newClient = await Client.create(req.body) 
+    console.log(findProduct, "hittt before")
+    // newClient.product = findProduct
     findProduct.clients.push(newClient)
-    console.log(newClient)
-    newClient.save()
     findProduct.save()
+    console.log(newClient, "client")
+    console.log(findProduct, "product")
     res.json({
       newClient,
       success: newClient ? true : false
     })
-    
   } catch (error) {
     res.json(error)
   } 

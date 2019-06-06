@@ -80,15 +80,15 @@ class Register extends Component {
         e.preventDefault();
         const { name, password, role, company, email, productId } = this.state
         const obj = {
-            name: name,
-            password: password,
-            role: role,
-            email: email,
-            company: company,
+            name,
+            password,
+            role,
+            email,
+            company,
             product: productId
         }
         try {
-            const createUser = await fetch("/clients/new", {
+            const createClient = await fetch("/clients/new", {
                 method: "POST",
                 credentials: "include",
                 body: JSON.stringify(obj),
@@ -96,11 +96,10 @@ class Register extends Component {
                     "Content-Type": "application/json"
                 }
             })
-            const parsedResponse = await createUser.json();
+            const parsedResponse = await createClient.json();
             console.log(parsedResponse)
                 if (parsedResponse.success) {
                     this.props.setCurrentUser(parsedResponse.newClient)
-            
                     this.setState({
                         logged: true
                     })
