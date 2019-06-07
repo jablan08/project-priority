@@ -1,23 +1,22 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 
-import { Button, Modal } from "react-materialize";
-
 class ProductShow extends Component {
     state = {
-        data: null,
-        username: "",
+        product: {},
         email: "",
+        name: "",
         password: ""
     };
     componentDidMount() {
         this.handleGetProduct().then(allData => {
         this.setState({
-            data: allData
+            product: allData
             });
         });
     }
     handleChange = e => {
+        console.log(this.state)
         this.setState({
             [e.target.name]: e.target.value
         });
@@ -28,12 +27,19 @@ class ProductShow extends Component {
         this.handleEdit();
     };
     handleEdit = async () => {
+        const { currentUser } = this.props
+        const { email, name, password} = this.state
+        const obj = {
+            email: email === "" ? currentUser.email : email,
+            name: name === "" ? currentUser.name : name,
+            password
+        }
         try {
             const editProduct = await fetch(
-                `/product/${this.props.currentUser.id}`,
+                `/product/${this.props.currentUser._id}`,
                 {
                 method: "PUT",
-                body: JSON.stringify(this.state),
+                body: JSON.stringify(obj),
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
@@ -41,7 +47,9 @@ class ProductShow extends Component {
                 }
             );
         const response = await editProduct.json();
-        this.props.setCurrentUser(response);
+        console.log(response,"=======")
+        console.log(response.editedProduct,"=======")
+        this.props.setCurrentUser(response.editedProduct);
         this.setState({
             password: ""
         });
@@ -59,87 +67,65 @@ class ProductShow extends Component {
             })
             const parsedResponse = await getPost.json()
             if (parsedResponse) {
-                return parsedResponse
+                return parsedResponse.product
             }
         } catch (error) {
             console.log(error)
         }
     }
-    handleDeletePhrase = async id => {
-        try {
-            const deletePhrase = await fetch(`http://localhost:5000/phrases/${id}`, {
-                method: "DELETE",
-                credentials: "include"
-            });
-            const response = await deletePhrase.json();
-            this.setState({
-                data: this.state.data.filter(d => d.id !== id)
-            });
-            return response;
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
   render() {
-    const { data} = this.state;
-    const { currentUser } = this.props;
+    const { email, name, product } = this.state;
+    const { currentUser } = this.props
+    console.log(product)
+    // console.log(product)
     return (
       <>
         <div className="user-info">
             <h5 style={{ textAlign: "center" }}>
-                {currentUser && currentUser.username}
+                {currentUser && currentUser.name}
             </h5>
             <h6 style={{ textAlign: "center" }}>
                 {currentUser && currentUser.email}
             </h6>
-            <h6 style={{ textAlign: "center" }}>
-                {currentUser && currentUser.primaryLanguage}
-             </h6>
-          <Button type="submit" href="#modal4" className="modal-trigger">
-            Edit
-          </Button>
-          <Modal id="modal4">
-            <input
-                type="text"
-                name="username"
-                 placeholder="new username"
-                value={this.props.currentUser.username}
-                autoComplete="off"
-                onChange={this.handleChange}
-            />
-            <br />
+            <form onSubmit={(e)=>this.handleSubmit(e)}>
+                <input
+                    type="email"
+                    name="email"
+                    onChange={this.handleChange}
+                    placeholder={this.props.currentUser.email}
+                    value={email}
+                    autoComplete="off"
+                />
+                <br />
+                <input
+                    type="text"
+                    name="name"
+                    placeholder={this.props.currentUser.name}
+                    value={name}
+                    autoComplete="off"
+                    onChange={this.handleChange}
+                />
+                <br />
 
-            <input
-                type="password"
-                name="password"
-                placeholder="new password"
-                onChange={this.handleChange}
-                autoComplete="off"
-            />
-            <br />
-            <input
-                type="email"
-                name="email"
-                value={this.props.currentUser.email}
-                placeholder="new email"
-                onChange={this.handleChange}
-                autoComplete="off"
-            />
-            <br />
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="new password"
+                    onChange={this.handleChange}
+                    autoComplete="off"
+                />
+                <br />
 
-            <Button
-                onClick={() => this.handleEdit(this.state)}
-                className="modal-close"
-            >
-              Save
-            </Button>
-          </Modal>
+                <button type="submit">
+                    Save
+                </button>
+          </form>
         </div>
-        <Button href="#modal5" className="modal-trigger">
+        <button href="#modal5" className="modal-trigger">
             Delete account
-        </Button>
-        <Modal id="modal5">
+        </button>
+        <form id="modal5">
             Before you go....
             <h6 style={{ textAlign: "center" }}> Is it Goodbye?</h6>
             <br />
@@ -147,14 +133,13 @@ class ProductShow extends Component {
                 The account will no longer be available, and all data in the account
                 will be permanently deleted.
             </p>
-            <Button
-                onClick={() => this.props.handleDeleteUser(currentUser.id)}
+            <button
+                onClick={() => this.props.handleDeleteProduct(currentUser._id)}
                 className="deleteBtn"
             >
                 Yes!
-            </Button>
-            <Button className="modal-close deleteBtn">I will stay</Button>
-            </Modal>
+            </button>
+        </form>
       </>
     );
   }

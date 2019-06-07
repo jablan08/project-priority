@@ -27,7 +27,9 @@ class Login extends Component {
                 }
             })
             const parsedResponse = await login.json();
+            console.log(parsedResponse)
             if (parsedResponse.success) {
+                localStorage.setItem("user", JSON.stringify(parsedResponse.user));
                 this.setState({
                     email: "",
                     password: ""

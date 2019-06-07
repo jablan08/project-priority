@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
+import * as routes from "../../constants/routes"
 
 class Post extends Component {
     state = { 
@@ -31,8 +33,11 @@ handleSubmit = async (e) => {
         console.log(parsedResponse, "response of post")
         if (parsedResponse.success) {
             console.log("worked")
-        } else {
-            console.log("didnt work")
+            // if (this.props.currentUser.company) {
+            //     <Redirect to={`/clients/home/${this.props.currentUser._id}`}/>
+            // } else {
+            //     <Redirect to={`/product/home/${this.props.currentUser._id}`}/>
+            // }
         }
     } catch (error) {
         console.log(error)

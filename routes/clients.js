@@ -78,7 +78,8 @@ router.post('/new', async (req, res) => {
     const newClient = await Client.create(req.body) 
     console.log(findProduct, "hittt before")
     findProduct.clients.push(newClient)
-    await findProduct.save()
+    console.log("pass")
+    findProduct.save()
     console.log(newClient, "client")
     console.log(findProduct, "product")
     res.json({

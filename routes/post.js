@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+
 const Client = require("../models/Client")
 const Product = require("../models/Product")
 const Post = require("../models/Post")
@@ -8,10 +9,10 @@ const Post = require("../models/Post")
 
 
 // FIND ALL
-router.get('/', async (req, res) => {
+router.get('/clients', async (req, res) => {
   
   try {
-    const posts = await Post.find({});
+    const posts = await Post.find({"product": req.session.productDbId});
     res.json({posts})
     
   } catch (error) {

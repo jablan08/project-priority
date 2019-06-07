@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs')
 const Product = require("../models/Product")
+const Client = require("../models/Client")
 
 
 
@@ -48,15 +49,24 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE USER
 router.delete('/:id', async (req, res) => {
   try {
-    const deletedProduct = await Product.findByIdAndRemove(req.params.id);  
-    res.json({deletedProduct})  
-    } catch (error) {
-      res.json({error})
-    }
-});
+    const deletedProduct = await Product.findByIdAndRemove(req.params.id)
+    await Client.deleteMany({_id: { $in: deletedProduct.clients }})
+    res.json(deletedProduct)
+  } catch (error) {
+    console.log(error)
+  }
+})
+// DELETE USER
+// router.delete('/:id', async (req, res) => {
+//   try {
+//     const deletedProduct = await Product.findByIdAndRemove(req.params.id);  
+//     res.json({deletedProduct})  
+//     } catch (error) {
+//       res.json({error})
+//     }
+// });
 
 router.post('/new', async (req, res) => {
   try {

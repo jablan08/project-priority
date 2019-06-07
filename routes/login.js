@@ -20,7 +20,9 @@ router.post("/", async (req,res) =>{
               req.session.logged = true;
               req.session.email = req.body.email;
               req.session.userDbId = foundClient._id;
+              req.session.productDbId = foundClient.product
               console.log(req.session)
+              console.log(foundClient.product, "=======")
               res.json({
                   user: foundClient,
                   status: 200,

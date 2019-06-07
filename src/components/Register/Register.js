@@ -34,6 +34,7 @@ class Register extends Component {
             const parsedResponse = await createProduct.json();
             console.log(parsedResponse)
                 if (parsedResponse.success) {
+                    localStorage.setItem("user", JSON.stringify(parsedResponse.newProduct));
                     this.props.setCurrentUser(parsedResponse.newProduct)
             
                     this.setState({
@@ -99,6 +100,7 @@ class Register extends Component {
             const parsedResponse = await createClient.json();
             console.log(parsedResponse)
                 if (parsedResponse.success) {
+                    localStorage.setItem("user", JSON.stringify(parsedResponse.newClient));
                     this.props.setCurrentUser(parsedResponse.newClient)
                     this.setState({
                         logged: true
