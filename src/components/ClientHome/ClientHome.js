@@ -114,7 +114,7 @@ class ClientHome extends Component {
                     //     )}
 
                     // </ul>
-                    <MapPost posts={post} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes}/>
+                    <MapPost posts={post} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes}/>
                     : 
                     <h1> Loading</h1>
                 }
@@ -123,7 +123,7 @@ class ClientHome extends Component {
     }
 }
 
-const MapPost =({posts, handleDeletePost, handleVotes})=> 
+const MapPost =({posts, handleDeletePost, handleVotes, currentUser})=> 
    <div>
     { 
          posts.map((p, i) => 
@@ -133,7 +133,16 @@ const MapPost =({posts, handleDeletePost, handleVotes})=>
                 {p.text} <br/>
                 {p.clients[0].name} <br/>
                 {new Date(p.datePosted).toDateString().slice(4)} <br/>
-                votes:{p.votes.length} <button onClick={()=> handleVotes(p._id, i)}>VOTE UP</button> <br/>
+                votes:{p.votes.length} 
+                {p.votes.includes(currentUser._id) ? <h2> voted </h2> : <button onClick={()=> handleVotes(p._id, i)}>VOTE UP</button> }
+                {/* {
+                    p.votes.map((v,i)=>
+                        v === currentUser._id
+                        ? <h2> voted </h2>
+                        : <button onClick={()=> handleVotes(p._id, i)}>VOTE UP</button>
+                    )
+                } */}
+                <br/>
                 <button onClick={()=> handleDeletePost(p._id)}> Delete </button>
             </li>
         
