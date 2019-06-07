@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 
 class Login extends Component {
@@ -28,11 +28,11 @@ class Login extends Component {
             })
             const parsedResponse = await login.json();
             if (parsedResponse.success) {
-                this.props.setCurrentUser(parsedResponse.user)
                 this.setState({
                     email: "",
                     password: ""
                 })
+                this.props.setCurrentUser(parsedResponse.user)
             } else {
                 this.setState({
                     message: parsedResponse.message
@@ -52,12 +52,13 @@ class Login extends Component {
                     </h1>
                 </div>
                 {     
-                    this.props.currentUser 
-                    // <Redirect to={`/users/${this.props.currentUser._id}`}/>
-                    ? <div> worked </div>
+                    this.props.currentUser.name 
+                    ? this.props.currentUser.company
+                        ? <Redirect to={`/clients/${this.props.currentUser._id}`}/>
+                        : <Redirect to={`/product/${this.props.currentUser._id}`}/>
                     : <form onSubmit={e => this.handleSubmit(e)}>
                         <label htmlFor="email">Email</label>
-                        <input text="text" name="email" onChange={this.handleChange} value={email}/>
+                        <input type="text" name="email" onChange={this.handleChange} value={email}/>
                         <label htmlFor="password">Password</label>
                         <input type="password" name="password" onChange={this.handleChange} value={password}/>
                         <button type="submit"> Submit</button>

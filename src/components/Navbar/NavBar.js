@@ -27,9 +27,9 @@ const NavBar = ({currentUser, doLogout}) =>
             <Nav exact to={routes.ROOT} activeClassName="active">HOME</Nav>
             <Nav exact to={routes.POST} activeClassName="active">POST</Nav>
             {
-                currentUser
-                ? <span className="message"> <button onClick={doLogout} className="navButton" >LOGOUT</button></span>
-                : [<Nav key={1} to={'/login'} activeClassName="active">LOGIN </Nav>,
+                currentUser.name
+                ? <span className="message"> <Nav to={`${routes.PRODUCT}/${currentUser._id}`}> ACCOUNT </Nav> <button onClick={doLogout} className="navButton" >LOGOUT</button></span>
+                : [<Nav key={1} to={routes.LOGIN} activeClassName="active">LOGIN </Nav>,
                 <Nav key={2} to={routes.REGISTER} activeClassName="active">REGISTER </Nav> ]   
             }
     </div>

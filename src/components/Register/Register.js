@@ -125,7 +125,7 @@ class Register extends Component {
                     product
                     ?
                         logged
-                        ? <Redirect to={`/product/${this.props.currentUser._id}`}/>
+                        ? <Redirect to={`/product/home/${this.props.currentUser._id}`}/>
                         : <ProductRegisterForm
                             handleChange = {this.handleChange}
                             handleProductSubmit = {this.handleProductSubmit}
@@ -136,7 +136,7 @@ class Register extends Component {
                     : client && productFetch
                         ? logged
                             ? 
-                            <Redirect to={`/clients/${this.props.currentUser._id}`}/>
+                            <Redirect to={`/clients/home/${this.props.currentUser._id}`}/>
                             :
                             <ClientRegisterForm
                             handleChange = {this.handleChange}

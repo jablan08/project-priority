@@ -27,7 +27,7 @@ router.post("/", async (req,res) =>{
                   success: foundClient ? true : false
               })
           } else {
-              req.session.message = "Invalid Username or Password"
+              req.session.message = "Invalid Email or Password"
               res.json({
                   message: req.session.message
               })
@@ -45,11 +45,16 @@ router.post("/", async (req,res) =>{
                   success: foundProduct ? true : false
               })
           } else {
-              req.session.message = "Invalid Username or Password"
+              req.session.message = "Invalid Email or Password"
               res.json({
                   message: req.session.message
               })
           }
+        } else {
+            req.session.message = "Invalid Email or Password"
+            res.json({
+                message: req.session.message
+            })
         }
     } catch (error) {
         req.session.message = "Invalid Username or Password"

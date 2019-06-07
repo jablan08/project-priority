@@ -19,6 +19,17 @@ router.get('/', async (req, res) => {
   }
 
 });
+router.get('/product', async (req, res) => {
+  
+  try {
+    const posts = await Post.find({"product": req.session.productDbId}).populate("clients")
+    res.json({posts})
+    
+  } catch (error) {
+    res.json({error})
+  }
+
+});
 
 // SHOW
 router.get("/:id", async (req,res)=>{
