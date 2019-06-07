@@ -58,6 +58,32 @@ class ClientHome extends Component {
             console.log(error);
         }
     };
+    handleVotes = async (id, index) => {
+        const obj = {
+            client: this.props.currentUser._id
+        }
+        try {
+            const voteUp = await fetch(`/posts/votes/${id}`, {
+                method: "PUT",
+                body: JSON.stringify(obj),
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            const response = await voteUp.json();
+            if (response.success) {
+                let postArray = [...this.state.post]
+                postArray[index] = response.votePost
+                console.log("worked")
+                this.setState({
+                    post: postArray
+                })
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
 
 
@@ -88,7 +114,7 @@ class ClientHome extends Component {
                     //     )}
 
                     // </ul>
-                    <MapPost posts={post} handleDeletePost={this.handleDeletePost}/>
+                    <MapPost posts={post} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes}/>
                     : 
                     <h1> Loading</h1>
                 }
@@ -97,7 +123,7 @@ class ClientHome extends Component {
     }
 }
 
-const MapPost =({posts, handleDeletePost})=> 
+const MapPost =({posts, handleDeletePost, handleVotes})=> 
    <div>
     { 
          posts.map((p, i) => 
@@ -106,8 +132,8 @@ const MapPost =({posts, handleDeletePost})=>
                 {p.title} <br/>
                 {p.text} <br/>
                 {p.clients[0].name} <br/>
-                {new Date(p.datePosted).toDateString().slice(4)} 
-                votes:{p.votes.length} <br/>
+                {new Date(p.datePosted).toDateString().slice(4)} <br/>
+                votes:{p.votes.length} <button onClick={()=> handleVotes(p._id, i)}>VOTE UP</button> <br/>
                 <button onClick={()=> handleDeletePost(p._id)}> Delete </button>
             </li>
         

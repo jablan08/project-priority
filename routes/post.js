@@ -46,6 +46,26 @@ router.get("/:id", async (req,res)=>{
 
 
 // EDIT
+router.put('/votes/:id', async (req, res) => {
+  console.log(req.body, "body")
+  console.log(req.body.client, "body")
+  try {
+    const votePost = await Post.findById(req.params.id);
+
+    votePost.votes.push(req.body.client)
+
+    await votePost.save()
+
+    res.json({
+      votePost,
+      success: votePost ? true : false
+    });
+  } catch (error) {
+    res.json({error})
+  }
+});
+
+
 router.put('/:id', async (req, res) => {
   try {
     const editedPost = await Post.findByIdAndUpdate(req.params.id, req.body, {new:true});
