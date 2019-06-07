@@ -8,7 +8,7 @@ class ClientHome extends Component {
     componentDidMount() {
         this.handleGetPost().then(allData =>{
             this.setState({
-                post: allData
+                post: allData.sort(this.sortPost)
             })
         })
     }
@@ -28,6 +28,9 @@ class ClientHome extends Component {
             console.log(error)
         }
     }
+    sortPost = (a,b) =>
+        a.votes.length > b.votes.length  ? -1 : b.votes.length  > a.votes.length ? 1 : 0;
+    
     handleGetPost = async () => {
         try {
             const getPost = await fetch(`/posts/clients`, {
@@ -75,9 +78,8 @@ class ClientHome extends Component {
             if (response.success) {
                 let postArray = [...this.state.post]
                 postArray[index] = response.votePost
-                console.log("worked")
                 this.setState({
-                    post: postArray
+                    post: postArray.sort(this.sortPost)
                 })
             }
         } catch (error) {
@@ -134,7 +136,11 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser})=>
                 {p.clients[0].name} <br/>
                 {new Date(p.datePosted).toDateString().slice(4)} <br/>
                 votes:{p.votes.length} 
-                {p.votes.includes(currentUser._id) ? <h2> voted </h2> : <button onClick={()=> handleVotes(p._id, i)}>VOTE UP</button> }
+                {
+                    p.votes.includes(currentUser._id) 
+                    ? <h2> voted </h2> 
+                    : <button onClick={()=> handleVotes(p._id, i)}>VOTE UP</button> 
+                }
                 {/* {
                     p.votes.map((v,i)=>
                         v === currentUser._id
