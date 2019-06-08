@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 class ClientHome extends Component {
     state = { 
-        post: []
+        post: [],
+        text: ""
     }
 
     componentDidMount() {
@@ -56,6 +57,7 @@ class ClientHome extends Component {
             const response = await deletePhrase.json();
             this.setState({
                 post: this.state.post.filter(d => d._id !== id)
+                
             });
         } catch (error) {
             console.log(error);
@@ -87,13 +89,45 @@ class ClientHome extends Component {
         }
     }
 
+    handleChange = (e) =>
+    this.setState({
+        [e.target.name]: e.target.value
+    })
+
+    handleComments = async (id,index) => {
+        const obj = {
+            client: this.props.currentUser._id,
+            // postedBy: ,
+            text: this.state.text
+        }
+        const postComment = await fetch(`/posts/comments/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(obj),
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const response = await postComment.json()
+        if (response.success) {
+            console.log(response)
+            let postArray = [...this.state.post]
+            postArray[index] = response.postComment
+            this.setState({
+                post: postArray.sort(this.sortPost),
+                text: ""
+            })
+        }
+
+    }
+
 
 
 
 
     render() { 
-        const { post } = this.state
-        console.log(post)
+        const { post, text } = this.state
+        console.log(this.state)
         const { currentUser } = this.state
         return ( 
             <>
@@ -116,7 +150,7 @@ class ClientHome extends Component {
                     //     )}
 
                     // </ul>
-                    <MapPost posts={post} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes}/>
+                    <MapPost posts={post} handleChange={this.handleChange} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes} handleComments={this.handleComments} text={text}/>
                     : 
                     <h1> Loading</h1>
                 }
@@ -125,8 +159,8 @@ class ClientHome extends Component {
     }
 }
 
-const MapPost =({posts, handleDeletePost, handleVotes, currentUser})=> 
-   <div>
+const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange, handleComments, text})=> 
+   <>
     { 
          posts.map((p, i) => 
             <li key={i}>
@@ -141,19 +175,31 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser})=>
                     ? <h2> voted </h2> 
                     : <button onClick={()=> handleVotes(p._id, i)}>VOTE UP</button> 
                 }
-                {/* {
-                    p.votes.map((v,i)=>
-                        v === currentUser._id
-                        ? <h2> voted </h2>
-                        : <button onClick={()=> handleVotes(p._id, i)}>VOTE UP</button>
+                {
+                    p.comments.map((c,v)=>
+                        
+                        <p key={v}>{c.text} - posted by {c.postedBy.name} on... {new Date(c.datePosted).toDateString().slice(4)}</p>
+                    
                     )
-                } */}
+                }
+                        <form key={35}>
+                            <label htmlFor="text" key={20}>Comment</label>
+                            <textarea 
+                                name="text" 
+                                maxLength="500" 
+                                rows="6" 
+                                cols="50" 
+                                onChange={handleChange}
+                                key={i}>
+                            </textarea>
+                        </form>
+                        <button onClick={()=>handleComments(p._id,i)} key={23}>Post Comment</button>
                 <br/>
-                <button onClick={()=> handleDeletePost(p._id)}> Delete </button>
+                <button onClick={()=> handleDeletePost(p._id)} key={24}> Delete </button>
             </li>
         
         )
     }
-    </div>
+    </>
  
 export default ClientHome;

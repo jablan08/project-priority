@@ -14,7 +14,10 @@ class ProductShow extends Component {
             product: allData
             });
         });
-    }
+    };
+    
+    
+
     handleChange = e => {
         console.log(this.state)
         this.setState({
@@ -78,7 +81,6 @@ class ProductShow extends Component {
     const { email, name, product } = this.state;
     const { currentUser } = this.props
     console.log(product)
-    // console.log(product)
     return (
       <>
         <div className="user-info">

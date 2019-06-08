@@ -9,13 +9,14 @@ class ProductHome extends Component {
     componentDidMount() {
         this.handleGetPost().then(allData =>{
             this.setState({
-                post: allData
+                post: allData.sort(this.sortPost)
             })
         })
     }
 
 
-
+    sortPost = (a,b) =>
+        a.votes.length > b.votes.length  ? -1 : b.votes.length  > a.votes.length ? 1 : 0;
 
 
     handleGetProduct = async () => {
@@ -44,7 +45,7 @@ class ProductHome extends Component {
             })
             const parsedResponse = await getPost.json()
             if (parsedResponse) {
-                return parsedResponse
+                return parsedResponse.posts
             }
         } catch (error) {
             console.log(error)
@@ -80,7 +81,7 @@ class ProductHome extends Component {
                     <h2>{this.props.currentUser._id}</h2>
                 </div>
                 {
-                    post.posts
+                    post
                     ?
                     // <ul>
                     //    { post.posts.map((p, i) => 
@@ -94,7 +95,7 @@ class ProductHome extends Component {
                     //     )}
 
                     // </ul>
-                    <MapPost posts={post.posts}/>
+                    <MapPost post={post}/>
                     : 
                     <h1> Loading</h1>
                 }
@@ -103,10 +104,10 @@ class ProductHome extends Component {
     }
 }
 
-const MapPost =(props)=> 
+const MapPost =({post})=> 
    <ul>
     { 
-         props.posts.map((p, i) => 
+         post.map((p, i) => 
             <li key={i}>
                 {p.title} <br/>
                 {p.text} <br/>

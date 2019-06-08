@@ -12,7 +12,8 @@ const Post = require("../models/Post")
 router.get('/clients', async (req, res) => {
   
   try {
-    const posts = await Post.find({"product": req.session.productDbId});
+    const posts = await Post.find({"product": req.session.productDbId}).populate("comments.postedBy").exec();
+    console.log(posts)
     res.json({posts})
     
   } catch (error) {
@@ -23,7 +24,7 @@ router.get('/clients', async (req, res) => {
 router.get('/product', async (req, res) => {
   
   try {
-    const posts = await Post.find({"product": req.session.productDbId}).populate("clients")
+    const posts = await Post.find({"product": req.session.productDbId}).populate("clients").exec()
     res.json({posts})
     
   } catch (error) {
@@ -64,6 +65,23 @@ router.put('/votes/:id', async (req, res) => {
     res.json({error})
   }
 });
+
+router.put("/comments/:id", async (req,res) => {
+  try {
+    const findClient = await Client.findById(req.body.client)
+    console.log(req.body.client)
+    req.body.postedBy = findClient
+    const postComment = await Post.findById(req.params.id)
+    postComment.comments.push(req.body)
+    postComment.save()
+    res.json({
+      postComment,
+      success: postComment ? true : false
+    })
+  } catch (error) {
+    
+  }
+})
 
 
 router.put('/:id', async (req, res) => {

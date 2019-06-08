@@ -17,10 +17,10 @@ const PostSchema = mongoose.Schema({
     }], 
     datePosted: { type : Date, default: Date.now },
     comments: [{
-        postedBy: [{
+        postedBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Client",
-        }],
+        },
         datePosted: { type : Date, default: Date.now }, 
         text: { type: String, required: true} 
     }] 
