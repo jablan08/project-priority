@@ -97,10 +97,35 @@ class ClientHome extends Component {
     handleComments = async (id,index) => {
         const obj = {
             client: this.props.currentUser._id,
-            // postedBy: ,
             text: this.state.text
         }
         const postComment = await fetch(`/posts/comments/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(obj),
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const response = await postComment.json()
+        if (response.success) {
+            console.log(response)
+            let postArray = [...this.state.post]
+            postArray[index] = response.postComment
+            this.setState({
+                post: postArray.sort(this.sortPost),
+                text: ""
+            })
+        }
+
+    }
+    handleEditComments = async (id,index,cId) => {
+        const obj = {
+            client: this.props.currentUser._id,
+            text: this.state.text,
+            commentId: cId
+        }
+        const postComment = await fetch(`/posts/comments/edit/${id}`, {
             method: "PUT",
             body: JSON.stringify(obj),
             credentials: "include",
@@ -150,7 +175,7 @@ class ClientHome extends Component {
                     //     )}
 
                     // </ul>
-                    <MapPost posts={post} handleChange={this.handleChange} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes} handleComments={this.handleComments} text={text}/>
+                    <MapPost posts={post} handleChange={this.handleChange} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes} handleComments={this.handleComments} text={text} handleEditComments={this.handleEditComments}/>
                     : 
                     <h1> Loading</h1>
                 }
@@ -159,7 +184,7 @@ class ClientHome extends Component {
     }
 }
 
-const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange, handleComments, text})=> 
+const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange, handleComments, text, handleEditComments})=> 
    <>
     { 
          posts.map((p, i) => 
@@ -177,25 +202,42 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
                 }
                 {
                     p.comments.map((c,v)=>
-                        
-                        <p key={v}>{c.text} - posted by {c.postedBy.name} on... {new Date(c.datePosted).toDateString().slice(4)}</p>
-                    
+                        <div key={v}>
+                            <p>
+                            {c.text} - posted by {c.postedBy.name} on... {new Date(c.datePosted).toDateString().slice(4)}
+                            </p>
+                            <form>
+                                <label htmlFor="text">Edit Comment</label>
+                                <textarea 
+                                    name="text" 
+                                    maxLength="500" 
+                                    rows="6" 
+                                    cols="50"
+                                    placeholder={c.text} 
+                                    onChange={handleChange}
+                                    >
+                                </textarea>
+                            </form>
+                            <button onClick={()=>handleEditComments(p._id, i, c._id)}> edit comment </button>
+
+                        </div>
                     )
                 }
-                        <form key={35}>
-                            <label htmlFor="text" key={20}>Comment</label>
+                        <form>
+                            <label htmlFor="text" >Comment</label>
                             <textarea 
                                 name="text" 
                                 maxLength="500" 
                                 rows="6" 
                                 cols="50" 
+                                value={text}
                                 onChange={handleChange}
-                                key={i}>
+                                >
                             </textarea>
                         </form>
-                        <button onClick={()=>handleComments(p._id,i)} key={23}>Post Comment</button>
+                        <button onClick={()=>handleComments(p._id,i)} >Post Comment</button>
                 <br/>
-                <button onClick={()=> handleDeletePost(p._id)} key={24}> Delete </button>
+                <button onClick={()=> handleDeletePost(p._id)} > Delete </button>
             </li>
         
         )

@@ -70,6 +70,7 @@ router.put("/comments/:id", async (req,res) => {
   try {
     const findClient = await Client.findById(req.body.client)
     console.log(req.body.client)
+    console.log(req.body, "============")
     req.body.postedBy = findClient
     const postComment = await Post.findById(req.params.id)
     postComment.comments.push(req.body)
@@ -79,7 +80,28 @@ router.put("/comments/:id", async (req,res) => {
       success: postComment ? true : false
     })
   } catch (error) {
-    
+    console.log(error)
+  }
+})
+
+router.put("/comments/edit/:id", async (req,res) => {
+  try {
+    const findClient = await Client.findById(req.body.client)
+    console.log(req.body.client)
+    console.log(req.body, "============")
+    console.log(req.body.commentId, "============")
+    req.body.postedBy = findClient
+    const postComment = await Post.findById(req.params.id)
+    console.log(postComment.comments[0]._id, "++++++")
+    console.log(postComment.comments.findIndex(i => i._id == req.body.commentId))
+    postComment.comments[postComment.comments.findIndex(i => i._id == req.body.commentId)].text = req.body.text
+    postComment.save()
+    res.json({
+      postComment,
+      success: postComment ? true : false
+    })
+  } catch (error) {
+    console.log(error)
   }
 })
 
