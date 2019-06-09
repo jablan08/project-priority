@@ -8,6 +8,7 @@ import ProductHome from "./components/ProductHome/ProductHome"
 import ClientHome from "./components/ClientHome/ClientHome"
 import ClientShow from "./components/ClientShow/ClientShow"
 import ProductShow from "./components/ProductShow/ProductShow"
+import Home from "./components/Home/Home"
 
 import './App.css';
 import Register from "./components/Register/Register";
@@ -71,7 +72,7 @@ class App extends Component {
       <>
         <NavBar doLogout={this.doLogout} currentUser={currentUser}/> 
         <Switch>
-          <Route exact path={routes.ROOT} render={()=> <div>Hi</div> }/>
+          <Route exact path={routes.ROOT} render={()=> <Home/> }/>
           <Route exact path={routes.POST} render={()=> <Post currentUser={currentUser}/>}/>
           <Route exact path={`${routes.PRODUCT}/home/:id`} render={()=> <ProductHome currentUser={currentUser} setCurrentUser={this.setCurrentUser} />}/>
           <Route exact path={`${routes.CLIENT}/home/:id`} render={()=> <ClientHome currentUser={currentUser} setCurrentUser={this.setCurrentUser} />}/>

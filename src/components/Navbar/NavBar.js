@@ -1,6 +1,8 @@
-import React from 'react';
-import { NavLink } from "react-router-dom";
 
+import React, { Component } from 'react';
+import { NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 import * as routes from "../../constants/routes"
 import "./NavBar.css"
 import styled from "styled-components";
@@ -37,35 +39,52 @@ const Moblie = styled.div`
         display: none;
     } */
     @media (max-width: 50rem) {
-        font-size:10rem;
+        flex-direction: column;
         display: flex;
     }
     .btn {
-    background-color: DodgerBlue; /* Blue background */
-    border: none; /* Remove borders */
-    color: white; /* White text */
-    padding: 12px 16px; /* Some padding */
-    font-size: 16px; /* Set a font size */
-    cursor: pointer; /* Mouse pointer on hover */
+    background-color: DodgerBlue; 
+    border: none; 
+    color: white;
+    font-size: 3.5rem; 
+    cursor: pointer; 
     }
     .btn:hover {
     background-color: Red;
     }
-    
+    .x-btn {
+        font-size: 2rem;
+        margin-left: .5rem;
 
+    }
+    .x-btn:hover {
+        color: Red;
+    }
 `
 const Nav = styled(NavLink)`
-    font-size: 2.5rem;
+    font-size: ${props => props.primary ? "1.4rem" : "2.5rem"};
     color: rgb(169,169,169);   
     margin: 0.5rem; 
     :hover {
         color: rgb(30,144,255);
     }
     text-decoration: none;
-
+    
 `
+// const Awesome = styled(FontAwesomeIcon)`
+//     .btn {
+//     background-color: DodgerBlue; /* Blue background */
+//     border: none; /* Remove borders */
+//     color: white; /* White text */
+//     padding: 12px 16px; /* Some padding */
+//     font-size: 1.6rem; /* Set a font size */
+//     cursor: pointer; /* Mouse pointer on hover */
+//     }
+//     .btn:hover {
+//     background-color: Red;
+//     }
+// `
 const Button = styled.button`
-
     background:none;
     color:inherit;
     border:none; 
@@ -83,23 +102,51 @@ const Title = styled.h1`
     font-size: 3rem;
     
 `
+class NavBar extends Component {
+    state = { 
+        navModal: false
+    }
 
-const NavBar = ({currentUser, doLogout}) =>
+    handleNav = () =>
+        this.setState({
+            navModal: true
+        })
+    handleNavClose = () =>
+        this.setState({
+            navModal: false
+        })
+    render() { 
+        const { currentUser, doLogout } = this.props 
+        const { navModal } = this.state
+        return ( 
+            <StyledNav>
+                <Title className="title">Project Priority</Title>
+                    <LandingDiv>
+        
+                        <Div>
+                            <NavContent currentUser={currentUser} doLogout={doLogout}/>
+                        </Div>
+                        <Moblie>
+                            
+                                {
+                                    navModal
+                                    ? <FontAwesomeIcon icon={faTimes} className="x-btn"onClick={()=>this.handleNavClose()} />
+                                    : <FontAwesomeIcon icon={faBars}  className="btn" onClick={()=>this.handleNav()}/>
+                                }
+                            {
+                                navModal
+                                && <NavContentMoblie currentUser={currentUser} doLogout={doLogout}/> 
+                            }
+                        </Moblie>
+                    </LandingDiv>
+        
+            </StyledNav>
+         );
+    }
+}
+ 
+
     
-    <StyledNav>
-        <Title className="title">Project Priority</Title>
-            <LandingDiv>
-
-                <Div>
-                    <NavContent currentUser={currentUser} doLogout={doLogout}/>
-                </Div>
-                <Moblie>
-                    <button className="btn"><i className="fa fa-bars"></i></button>
-                    {/* <NavContent style={{display: "none"}} currentUser={currentUser} doLogout={doLogout}/> */}
-                </Moblie>
-            </LandingDiv>
-
-    </StyledNav>
 
 const NavContent = ({currentUser, doLogout}) => 
     <>
@@ -123,6 +170,30 @@ const NavContent = ({currentUser, doLogout}) =>
             </span>
             : [<Nav key={1} to={routes.LOGIN} activeClassName="active">LOGIN </Nav>,
             <Nav key={2} to={routes.REGISTER} activeClassName="active">REGISTER </Nav> ]   
+        }
+    </>
+const NavContentMoblie = ({currentUser, doLogout}) => 
+    <>
+        {
+            currentUser.name
+            ? currentUser.company
+                ? <Nav primary="true" to={`${routes.CLIENT}/home/${currentUser._id}`}> HOME </Nav>
+                : <Nav primary="true" to={`${routes.PRODUCT}/home/${currentUser._id}`}> HOME </Nav>
+            : <Nav primary="true" exact to={routes.ROOT} activeClassName="active">HOME</Nav>
+        }
+        <Nav primary="true" exact to={routes.POST} activeClassName="active">POST</Nav>
+        {
+            currentUser.name
+            ? <span className="message"> 
+            {
+                currentUser.company
+                ? <Nav primary="true" to={`${routes.CLIENT}/${currentUser._id}`}> ACCOUNT </Nav>
+                : <Nav primary="true" to={`${routes.PRODUCT}/${currentUser._id}`}> ACCOUNT </Nav>
+            }
+            <Button onClick={doLogout} className="navButton" >LOGOUT</Button>
+            </span>
+            : [<Nav primary="true" key={1} to={routes.LOGIN} activeClassName="active">LOGIN </Nav>,
+            <Nav primary="true" key={2} to={routes.REGISTER} activeClassName="active">REGISTER </Nav> ]   
         }
     </>
 export default NavBar;

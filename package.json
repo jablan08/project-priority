@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "bcryptjs": "^2.4.3",
     "concurrently": "^4.1.0",
     "cookie-parser": "^1.4.4",
@@ -44,5 +47,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8888"
+  "proxy": "http://localhost:8888",
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.9.0"
+  }
 }
