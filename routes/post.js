@@ -24,7 +24,7 @@ router.get('/clients', async (req, res) => {
 router.get('/product', async (req, res) => {
   
   try {
-    const posts = await Post.find({"product": req.session.productDbId}).populate("clients").exec()
+    const posts = await Post.find({"product": req.session.productDbId}).populate("clients").populate("comments.postedBy").exec()
     res.json({posts})
     
   } catch (error) {
