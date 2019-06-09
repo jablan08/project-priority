@@ -87,13 +87,8 @@ router.put("/comments/:id", async (req,res) => {
 router.put("/comments/edit/:id", async (req,res) => {
   try {
     const findClient = await Client.findById(req.body.client)
-    console.log(req.body.client)
-    console.log(req.body, "============")
-    console.log(req.body.commentId, "============")
     req.body.postedBy = findClient
     const postComment = await Post.findById(req.params.id)
-    console.log(postComment.comments[0]._id, "++++++")
-    console.log(postComment.comments.findIndex(i => i._id == req.body.commentId))
     postComment.comments[postComment.comments.findIndex(i => i._id == req.body.commentId)].text = req.body.text
     postComment.save()
     res.json({
@@ -124,6 +119,24 @@ router.delete('/:id', async (req, res) => {
       res.json({error})
     }
 });
+
+router.put("/comments/delete/:id", async (req, res) => {
+  try {
+    const postDeletedComment = await Post.findById(req.params.id)
+    // postDeletedComment.comments[postDeletedComment.comments.findIndex(i => i._id == req.body.commentId)]
+    console.log(postDeletedComment.comments.findIndex(i => i._id == req.body.commentId))
+    console.log(req.body)
+    postDeletedComment.comments.splice(postDeletedComment.comments.findIndex(i => i._id == req.body.commentId),1)
+    postDeletedComment.save()
+    // console.log(postDeletedComment)
+    res.json({
+      postDeletedComment,
+      success: postDeletedComment ? true : false
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 router.post('/new', async (req, res) => {
   try {

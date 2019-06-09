@@ -95,55 +95,91 @@ class ClientHome extends Component {
     })
 
     handleComments = async (id,index) => {
-        const obj = {
-            client: this.props.currentUser._id,
-            text: this.state.text
-        }
-        const postComment = await fetch(`/posts/comments/${id}`, {
-            method: "PUT",
-            body: JSON.stringify(obj),
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
+        try {
+            const obj = {
+                client: this.props.currentUser._id,
+                text: this.state.text
             }
-        })
-        const response = await postComment.json()
-        if (response.success) {
-            console.log(response)
-            let postArray = [...this.state.post]
-            postArray[index] = response.postComment
-            this.setState({
-                post: postArray.sort(this.sortPost),
-                text: ""
+            const postComment = await fetch(`/posts/comments/${id}`, {
+                method: "PUT",
+                body: JSON.stringify(obj),
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                }
             })
+            const response = await postComment.json()
+            if (response.success) {
+                console.log(response)
+                let postArray = [...this.state.post]
+                postArray[index] = response.postComment
+                this.setState({
+                    post: postArray.sort(this.sortPost),
+                    text: ""
+                })
+            }
+        } catch (error) {
+            console.log(error)
         }
 
     }
     handleEditComments = async (id,index,cId) => {
-        const obj = {
-            client: this.props.currentUser._id,
-            text: this.state.text,
-            commentId: cId
-        }
-        const postComment = await fetch(`/posts/comments/edit/${id}`, {
-            method: "PUT",
-            body: JSON.stringify(obj),
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
+        try {
+            const obj = {
+                client: this.props.currentUser._id,
+                text: this.state.text,
+                commentId: cId
             }
-        })
-        const response = await postComment.json()
-        if (response.success) {
-            console.log(response)
-            let postArray = [...this.state.post]
-            postArray[index] = response.postComment
-            this.setState({
-                post: postArray.sort(this.sortPost),
-                text: ""
+            const postComment = await fetch(`/posts/comments/edit/${id}`, {
+                method: "PUT",
+                body: JSON.stringify(obj),
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                }
             })
+            const response = await postComment.json()
+            if (response.success) {
+                console.log(response)
+                let postArray = [...this.state.post]
+                postArray[index] = response.postComment
+                this.setState({
+                    post: postArray.sort(this.sortPost),
+                    text: ""
+                })
+            }
+            
+        } catch (error) {
+            console.log(error)
         }
-
+    }
+    handleDeleteComment = async (id, index, cId) => {
+        console.log(this.state.post[this.state.post.findIndex(i => i._id === id)].comments.filter(d => d._id !== cId))
+        try {
+            const obj = {
+                commentId: cId
+            }
+            const deleteComment = await fetch(`/posts/comments/delete/${id}`, {
+                method: "PUT",
+                body: JSON.stringify(obj),
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            const response = await deleteComment.json();
+            if (response.success) {
+                console.log(response)
+                let postArray = [...this.state.post]
+                postArray[index] = response.postDeletedComment
+                this.setState({
+                    post: postArray.sort(this.sortPost)
+                });
+            }
+            
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 
@@ -175,7 +211,7 @@ class ClientHome extends Component {
                     //     )}
 
                     // </ul>
-                    <MapPost posts={post} handleChange={this.handleChange} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes} handleComments={this.handleComments} text={text} handleEditComments={this.handleEditComments}/>
+                    <MapPost posts={post} handleChange={this.handleChange} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes} handleComments={this.handleComments} text={text} handleEditComments={this.handleEditComments} handleDeleteComment={this.handleDeleteComment}/>
                     : 
                     <h1> Loading</h1>
                 }
@@ -184,7 +220,7 @@ class ClientHome extends Component {
     }
 }
 
-const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange, handleComments, text, handleEditComments})=> 
+const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange, handleComments, text, handleEditComments, handleDeleteComment})=> 
    <>
     { 
          posts.map((p, i) => 
@@ -206,19 +242,26 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
                             <p>
                             {c.text} - posted by {c.postedBy.name} on... {new Date(c.datePosted).toDateString().slice(4)}
                             </p>
-                            <form>
-                                <label htmlFor="text">Edit Comment</label>
-                                <textarea 
-                                    name="text" 
-                                    maxLength="500" 
-                                    rows="6" 
-                                    cols="50"
-                                    placeholder={c.text} 
-                                    onChange={handleChange}
-                                    >
-                                </textarea>
-                            </form>
-                            <button onClick={()=>handleEditComments(p._id, i, c._id)}> edit comment </button>
+                            {
+                                currentUser._id === c.postedBy._id
+                                && <button> Edit comment </button>
+                            }
+                            <div>
+                                <form>
+                                    <label htmlFor="text">Edit Comment</label>
+                                    <textarea 
+                                        name="text" 
+                                        maxLength="500" 
+                                        rows="6" 
+                                        cols="50"
+                                        placeholder={c.text} 
+                                        onChange={handleChange}
+                                        >
+                                    </textarea>
+                                </form>
+                                <button onClick={()=>handleEditComments(p._id, i, c._id)}> edit comment </button>
+                                <button onClick={()=>handleDeleteComment(p._id, i, c._id)}> delete comment </button>
+                            </div>
 
                         </div>
                     )
