@@ -40,6 +40,19 @@ const Moblie = styled.div`
         font-size:10rem;
         display: flex;
     }
+    .btn {
+    background-color: DodgerBlue; /* Blue background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 12px 16px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+    }
+    .btn:hover {
+    background-color: Red;
+    }
+    
+
 `
 const Nav = styled(NavLink)`
     font-size: 2.5rem;
@@ -81,8 +94,8 @@ const NavBar = ({currentUser, doLogout}) =>
                     <NavContent currentUser={currentUser} doLogout={doLogout}/>
                 </Div>
                 <Moblie>
-                    hello
-                    {/* <NavContent currentUser={currentUser} doLogout={doLogout}/> */}
+                    <button className="btn"><i className="fa fa-bars"></i></button>
+                    {/* <NavContent style={{display: "none"}} currentUser={currentUser} doLogout={doLogout}/> */}
                 </Moblie>
             </LandingDiv>
 
