@@ -62,11 +62,11 @@ const MapPostBox = styled.div`
         cursor: pointer;
         font-size: 1.5rem;
     }
-    .voted {
-        font-size: 1.5rem;
-    }
     .button-submit:hover {
         color: rgb(65,105,225);
+    }
+    .voted {
+        font-size: 1.5rem;
     }
     .vote-text {
         font-size: 1.5rem;
@@ -330,7 +330,6 @@ class ClientHome extends Component {
         const { currentUser } = this.props
         return ( 
             <Container>
-                <Post currentUser={currentUser} handleNewPost={this.handleNewPost} />
                 <SubContainer>
                     <div className="header">
                         {
@@ -338,6 +337,7 @@ class ClientHome extends Component {
                             && <h2 className="title"> Welcome <span className="span-text">{currentUser.name}</span></h2>
                         }
                     </div>
+                    <Post currentUser={currentUser} handleNewPost={this.handleNewPost} />
                     <div className="map-post-box">
                         {
                             post.length
