@@ -90,7 +90,7 @@ const HomeMid = styled.section`
     .mid-container {
         display: flex;
         margin: 70px 0;
-        
+        flex-direction: row-reverse;
         max-width: 960px;
         width: 100%;
         justify-content: space-between;
@@ -143,6 +143,15 @@ const HomeMid = styled.section`
             max-width: 100%;
             align-self: flex-start;
     }
+    .mid-container-2 {
+        display: flex;
+        margin: 70px 0;
+        /* flex-direction: row-reverse; */
+        max-width: 960px;
+        width: 100%;
+        justify-content: space-between;
+
+    }
 `
 const Home = () => 
     <HomeContainer>
@@ -177,6 +186,29 @@ const Home = () =>
                 </div>
                 <div className="img-side">
                     <img className="img-tag" src="/imgs/feature-manage-pp.png"></img>
+                </div>
+
+            </div>
+            <div className="mid-container-2">
+                <div className="text-content">
+                    <h2 className="title">
+                        Feature voting board
+                    </h2>
+                    <p className="subtitle">
+                        Instead of sending users to an email form, let them vote on features. They'll love your transparency and commitment to building a great product.
+                    </p>
+                    <ul>
+                        <li>
+                            Automatically group similar requests.
+    
+                        </li>
+                        <li>
+                            Reach out to everyone with the same request and enable discussion.
+                        </li>
+                    </ul>
+                </div>
+                <div className="img-side">
+                    <img className="img-tag" src="/imgs/vote-placeholder.png"></img>
                 </div>
 
             </div>
