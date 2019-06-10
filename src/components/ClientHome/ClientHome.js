@@ -381,7 +381,7 @@ class ClientHome extends Component {
 const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange, handleComments, text, handleEditComments, handleDeleteComment, handleCloseEdit, handleOpenEdit, handleCloseComments, handleOpenComments, editComment, postComment, showComment, handleOpenPost, handleClosePost})=> 
     <>
         <MapPostBox>
-             <h1>Your feature request: </h1>
+             <h1>Current feature request: </h1>
             { 
                 posts.map((p, i) => 
                 <li key={i} className="li-tags">

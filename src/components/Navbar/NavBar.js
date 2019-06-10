@@ -158,7 +158,7 @@ const NavContent = ({currentUser, doLogout}) =>
                 : <Nav to={`${routes.PRODUCT}/home/${currentUser._id}`}> HOME </Nav>
             : <Nav exact to={routes.ROOT} activeClassName="active">HOME</Nav>
         }
-        <Nav exact to={routes.POST} activeClassName="active">POST</Nav>
+        {/* <Nav exact to={routes.POST} activeClassName="active">POST</Nav> */}
         {
             currentUser.name
             ? <span className="message"> 

@@ -51,7 +51,7 @@ router.put('/votes/:id', async (req, res) => {
   console.log(req.body, "body")
   console.log(req.body.client, "body")
   try {
-    const votePost = await Post.findById(req.params.id);
+    const votePost = await Post.findById(req.params.id).populate("clients").populate("comments.postedBy").exec();
 
     votePost.votes.push(req.body.client)
 
@@ -72,7 +72,7 @@ router.put("/comments/:id", async (req,res) => {
     console.log(req.body.client)
     console.log(req.body, "============")
     req.body.postedBy = findClient
-    const postComment = await Post.findById(req.params.id)
+    const postComment = await Post.findById(req.params.id).populate("clients").populate("comments.postedBy").exec();
     postComment.comments.push(req.body)
     postComment.save()
     res.json({
@@ -88,7 +88,7 @@ router.put("/comments/edit/:id", async (req,res) => {
   try {
     const findClient = await Client.findById(req.body.client)
     req.body.postedBy = findClient
-    const postComment = await Post.findById(req.params.id)
+    const postComment = await Post.findById(req.params.id).populate("clients").populate("comments.postedBy").exec();
     postComment.comments[postComment.comments.findIndex(i => i._id == req.body.commentId)].text = req.body.text
     postComment.save()
     res.json({
@@ -122,7 +122,7 @@ router.delete('/:id', async (req, res) => {
 
 router.put("/comments/delete/:id", async (req, res) => {
   try {
-    const postDeletedComment = await Post.findById(req.params.id)
+    const postDeletedComment = await Post.findById(req.params.id).populate("clients").populate("comments.postedBy").exec();
     // postDeletedComment.comments[postDeletedComment.comments.findIndex(i => i._id == req.body.commentId)]
     console.log(postDeletedComment.comments.findIndex(i => i._id == req.body.commentId))
     console.log(req.body)
@@ -151,7 +151,7 @@ router.post('/new', async (req, res) => {
     console.log(findProduct, "foundProducy================")
     req.body.clients = findClient
     req.body.product = findProduct
-    const newPost =  await Post.create(req.body)
+    const newPost =  await Post.create(req.body).populate("clients").populate("comments.postedBy").exec();
     res.json({
       newPost,
       success: newPost ? true : false
@@ -171,49 +171,5 @@ router.post('/logout', (req, res) => {
   }
   })
 })
-
-
-// ADD TO WATCHLIST
-router.post("/add", async (req,res)=> {
-  try {
-    const foundUser = await Post.findById(req.session.userDbId)
-
-    const team ={
-      title:req.body.name,
-      image:req.body.image_url,
-      id: req.body.id
-
-    }
-    foundUser.watchList.push(team)
-    await foundUser.save()
-    res.json({
-      updatedUser: foundUser,
-      success: true,
-      message: "Add to watch list!"
-    })
-  } catch (error) {
-    console.log(error)
-  }
-})
-
-
-// DELETE FROM WATCHLIST
-router.delete('/watchlist/:id', async (req, res) => {
-  try {
-    const foundUser = await Post.findById(req.session.userDbId);
-   
-    foundUser.watchList.splice(req.params.id,1)
-    await foundUser.save();
-    
-    res.json({
-      foundUser
-    });
-  } catch(err) {
-    res.send(err)
-  }
-});
-
-
-
 
 module.exports = router;
