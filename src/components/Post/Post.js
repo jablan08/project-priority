@@ -30,14 +30,10 @@ handleSubmit = async (e) => {
             }
         })
         const parsedResponse = await post.json();
-        console.log(parsedResponse, "response of post")
+        console.log(parsedResponse.newPost, "response of post")
         if (parsedResponse.success) {
             console.log("worked")
-            // if (this.props.currentUser.company) {
-            //     <Redirect to={`/clients/home/${this.props.currentUser._id}`}/>
-            // } else {
-            //     <Redirect to={`/product/home/${this.props.currentUser._id}`}/>
-            // }
+            this.props.handleNewPost(parsedResponse.newPost)
         }
     } catch (error) {
         console.log(error)
