@@ -84,12 +84,16 @@ class ProductShow extends Component {
     return (
       <>
         <div className="user-info">
-            <h5 style={{ textAlign: "center" }}>
+            <h1 style={{ textAlign: "center" }}>
                 {currentUser && currentUser.name}
-            </h5>
-            <h6 style={{ textAlign: "center" }}>
+            </h1>
+            <h1 style={{ textAlign: "center" }}>
                 {currentUser && currentUser.email}
-            </h6>
+            </h1>
+            {
+                currentUser
+                && <h2> {currentUser._id}</h2>
+            }
             <form onSubmit={(e)=>this.handleSubmit(e)}>
                 <input
                     type="email"

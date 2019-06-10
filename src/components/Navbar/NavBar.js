@@ -14,7 +14,7 @@ const StyledNav = styled.div`
     flex-direction: row;
     width:100%;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2rem 0;
 
 
 `
@@ -91,11 +91,12 @@ const Button = styled.button`
     font: inherit;
     /*border is optional*/
     cursor: pointer;
-    color: rgb(212,175,55);    
-    text-decoration: underline;
+    color: rgb(169,169,169);     
+    
     :hover {
-        color: #F5F5F5
+        color: rgb(30,144,255);
     }
+    font-size: ${props => props.primary ? "1.4rem" : "2.5rem"};
 `
 const Title = styled.h1`
     color: rgb(65,105,225);

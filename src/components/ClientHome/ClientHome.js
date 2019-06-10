@@ -199,18 +199,6 @@ class ClientHome extends Component {
                 {
                     post.length
                     ?
-                    // <ul>
-                    //    { post.posts.map((p, i) => 
-                    //         <li key={i}>
-                    //             {p.title} <br/>
-                    //             {p.text} <br/>
-                    //             {p.clients[0].name} <br/>
-                    //             {new Date(p.datePosted).toDateString()} <br/>
-                    //             votes:{p.votes.length} <br/>
-                    //         </li>
-                    //     )}
-
-                    // </ul>
                     <MapPost posts={post} handleChange={this.handleChange} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes} handleComments={this.handleComments} text={text} handleEditComments={this.handleEditComments} handleDeleteComment={this.handleDeleteComment}/>
                     : 
                     <h1> Loading</h1>

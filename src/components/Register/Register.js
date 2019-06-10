@@ -71,7 +71,6 @@ const MainBox = styled.div`
 
     .buttons-top {
         display: flex;
-        display: flex;
         justify-content: space-evenly;
         width: 100%;
         margin-bottom: 2rem;

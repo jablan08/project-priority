@@ -121,15 +121,15 @@ class Login extends Component {
                                 {     
                                     this.props.currentUser.name 
                                     ? this.props.currentUser.company
-                                        ? <Redirect to={`/clients/${this.props.currentUser._id}`}/>
-                                        : <Redirect to={`/product/${this.props.currentUser._id}`}/>
+                                        ? <Redirect to={`/clients/home/${this.props.currentUser._id}`}/>
+                                        : <Redirect to={`/product/home/${this.props.currentUser._id}`}/>
                                     : <form onSubmit={e => this.handleSubmit(e)}>
                                         <label className="label-tag" htmlFor="email">Email</label>
                                         <input className="input-box" type="text" name="email" onChange={this.handleChange} value={email}/>
                                         <label className="label-tag" htmlFor="password">Password</label>
                                         <input className="input-box" type="password" name="password" onChange={this.handleChange} value={password}/>
-                                        <button type="submit" className="button-submit"> Submit <FontAwesomeIcon size="lg" icon={faSignInAlt}/></button>
-                                        {message}
+                                        <button type="submit" className="button-submit"> Submit <FontAwesomeIcon size="lg" icon={faSignInAlt}/></button> <br/>
+                                        <h6>{message} </h6> <br/>
                                     </form>
                                 }
                             </div>
