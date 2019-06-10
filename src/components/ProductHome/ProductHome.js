@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleUp, faTrashAlt, faEdit, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { faAngleUp, faTrashAlt, faEdit, faCheckSquare, faComment, faCommentMedical, faCommentDots } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
     display:flex;
@@ -47,7 +47,8 @@ const MapPostBox = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%
+        width: 100%;
+        margin: 1rem 0;
     }
     .post-content {
         display: flex;
@@ -58,6 +59,9 @@ const MapPostBox = styled.div`
         border: none;
         background-color: white;
         cursor: pointer;
+        font-size: 1.5rem;
+    }
+    .voted {
         font-size: 1.5rem;
     }
     .button-submit:hover {
@@ -77,6 +81,14 @@ const MapPostBox = styled.div`
     }
     .post-title-font {
         font-size: 1.5rem;
+    }
+    .post-comment-form {
+        display: flex;
+        flex-direction: column;
+
+    }
+    .post-btn {
+        margin: .8rem 0 3rem;
     }
 `
 const CommentBox = styled.div`
@@ -100,7 +112,8 @@ class ProductHome extends Component {
     state = { 
         post: [],
         editComment: false,
-        postComment: false
+        postComment: false,
+        showComment: false
     }
 
     componentDidMount() {
@@ -230,6 +243,22 @@ class ProductHome extends Component {
         this.setState({
             editComment: false
         })
+    handleOpenComments = () => 
+        this.setState({
+            showComment: true
+        })
+    handleCloseComments = () => 
+        this.setState({
+            showComment: false
+        })
+    handleOpenPost = () => 
+        this.setState({
+            postComment: true
+        })
+    handleClosePost = () => 
+        this.setState({
+            postComment: false
+        })
     handleEditComments = async (id,index,cId) => {
         try {
             const obj = {
@@ -290,7 +319,7 @@ class ProductHome extends Component {
     }
 
     render() { 
-        const { post, text, editComment, postComment } = this.state
+        const { post, text, editComment, postComment, showComment } = this.state
         console.log(this.state)
         const { currentUser } = this.props
         return ( 
@@ -306,7 +335,7 @@ class ProductHome extends Component {
                         {
                             post.length
                             ?
-                            <MapPost posts={post} handleChange={this.handleChange} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes} handleComments={this.handleComments} text={text} handleEditComments={this.handleEditComments} handleDeleteComment={this.handleDeleteComment} handleCloseEdit={this.handleCloseEdit} handleOpenEdit={this.handleOpenEdit} editComment={editComment} postComment={postComment}/>
+                            <MapPost posts={post} showComment={showComment} handleChange={this.handleChange} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes} handleComments={this.handleComments} text={text} handleEditComments={this.handleEditComments} handleDeleteComment={this.handleDeleteComment} handleCloseEdit={this.handleCloseEdit} handleOpenEdit={this.handleOpenEdit} editComment={editComment} postComment={postComment} handleCloseComments={this.handleCloseComments} handleOpenComments={this.handleOpenComments} handleOpenPost={this.handleOpenPost} handleClosePost={this.handleClosePost}/>
                             : 
                             <h1> Loading</h1>
                         }
@@ -319,7 +348,7 @@ class ProductHome extends Component {
     }
 }
 
-const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange, handleComments, text, handleEditComments, handleDeleteComment, handleCloseEdit, handleOpenEdit, editComment, postComment})=> 
+const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange, handleComments, text, handleEditComments, handleDeleteComment, handleCloseEdit, handleOpenEdit, handleCloseComments, handleOpenComments, editComment, postComment, showComment, handleOpenPost, handleClosePost})=> 
     <>
         <MapPostBox>
              <h1>Your feature request: </h1>
@@ -330,7 +359,7 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
                             <div className="post-votes">
                                 {
                                     p.votes.includes(currentUser._id) 
-                                    ? <h5> voted </h5> 
+                                    ? <h5 className="voted" > Voted </h5> 
                                     : <button className="button-submit"onClick={()=> handleVotes(p._id, i)}>VOTE <FontAwesomeIcon icon={faAngleUp}/> </button> 
                                 }
                                 <h4 className="vote-text">{p.votes.length}  </h4> 
@@ -347,63 +376,74 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
 
                             </div>
                         </div>
-                        <CommentBox>
-                            {
-                                p.comments.map((c,v)=>
-                                    <div className="comments" key={v}>
-                                        <div className="comment-title-text">
-                                            <div className="comment-title">
-                                                <h2>
-                                                    Posted by: <span className="span-text"> {c.postedBy === null ? currentUser.name : c.postedBy.name }</span> 
-                                                </h2>
-                                                <h4>{new Date(c.datePosted).toDateString().slice(4)}</h4>
+                        <button className="button-submit" onClick={ showComment ? ()=> handleCloseComments() : ()=> handleOpenComments()}> Show Comments <FontAwesomeIcon icon={faComment}/>{p.comments.length}</button>
+                        {
+                            showComment
+                            &&
+                            <CommentBox>
+                                {
+                                    p.comments.map((c,v)=>
+                                        <div className="comments" key={v}>
+                                            <div className="comment-title-text">
+                                                <div className="comment-title">
+                                                    <h2>
+                                                        Posted by: <span className="span-text"> {c.postedBy === null ? currentUser.name : c.postedBy.name }</span> 
+                                                    </h2>
+                                                    <h4>{new Date(c.datePosted).toDateString().slice(4)}</h4>
+                                                </div>
+                                                <div>
+                                                    <h4>
+                                                        {c.text} 
+                                                    </h4>
+                                                    <button className="button-submit" onClick={ editComment ? ()=> handleCloseEdit() : ()=> handleOpenEdit()}> Edit comment <FontAwesomeIcon icon={faEdit}/> </button>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h4>
-                                                    {c.text} 
-                                                </h4>
-                                                <button className="button-submit" onClick={ editComment ? ()=> handleCloseEdit() : ()=> handleOpenEdit()}> Edit comment <FontAwesomeIcon icon={faEdit}/> </button>
-                                            </div>
+
+                                            {
+                                                editComment 
+                                                &&
+                                                <div className="edit-comment-form">
+                                                    <form>
+                                                        <textarea 
+                                                            name="text" 
+                                                            maxLength="500" 
+                                                            rows="6" 
+                                                            cols="50"
+                                                            placeholder={c.text} 
+                                                            onChange={handleChange}
+                                                            >
+                                                        </textarea>
+                                                    </form>
+                                                    <button className="button-submit"  onClick={()=>handleEditComments(p._id, i, c._id)}> Submit Edit <FontAwesomeIcon icon={faCheckSquare}/> </button>
+                                                    <button className="button-submit"  onClick={()=>handleDeleteComment(p._id, i, c._id)}> Delete comment <FontAwesomeIcon icon={faTrashAlt}/> </button>
+                                                </div>
+                                            }
+
                                         </div>
-
-                                        {
-                                            editComment 
-                                            &&
-                                            <div className="edit-comment-form">
-                                                <form>
-                                                    <textarea 
-                                                        name="text" 
-                                                        maxLength="500" 
-                                                        rows="6" 
-                                                        cols="50"
-                                                        placeholder={c.text} 
-                                                        onChange={handleChange}
-                                                        >
-                                                    </textarea>
-                                                </form>
-                                                <button className="button-submit"  onClick={()=>handleEditComments(p._id, i, c._id)}> Submit Edit <FontAwesomeIcon icon={faCheckSquare}/> </button>
-                                                <button className="button-submit"  onClick={()=>handleDeleteComment(p._id, i, c._id)}> Delete comment <FontAwesomeIcon icon={faTrashAlt}/> </button>
-                                            </div>
-                                        }
-
-                                    </div>
-                                )
-                            }
-                        </CommentBox>
-                            <form>
-                                <label htmlFor="text" >Comment</label>
-                                <textarea 
-                                    name="text" 
-                                    maxLength="500" 
-                                    rows="6" 
-                                    cols="50" 
-                                    value={text}
-                                    onChange={handleChange}
-                                    >
-                                </textarea>
-                            </form>
-                            <button onClick={()=>handleComments(p._id,i)} >Post Comment</button>
-                        <br/>
+                                    )
+                                }
+                            </CommentBox>
+                        }
+                        <button className="button-submit post-btn" onClick={ postComment ? ()=> handleClosePost() : ()=> handleOpenPost()}> Post a comment <FontAwesomeIcon icon={faCommentMedical}/></button>
+                        {
+                            postComment
+                            &&
+                                <div className="post-comment-form">
+                                    <form>
+                                        <label htmlFor="text" >Comment</label>
+                                        <textarea 
+                                            name="text" 
+                                            maxLength="500" 
+                                            rows="6" 
+                                            cols="50" 
+                                            value={text}
+                                            onChange={handleChange}
+                                            >
+                                        </textarea>
+                                    </form>
+                                    <button className="button-submit" onClick={()=>handleComments(p._id,i)}>Submit Comment <FontAwesomeIcon icon={faCommentDots}/></button>
+                                </div>
+                        }
                         <button className="button-submit" onClick={()=> handleDeletePost(p._id)}> Delete request <FontAwesomeIcon icon={faTrashAlt}/></button>
                     </li>
                 
