@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Post from "../Post/Post"
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleUp, faTrashAlt, faEdit, faCheckSquare, faComment, faCommentMedical, faCommentDots } from '@fortawesome/free-solid-svg-icons';
+import { faAngleUp, faTrashAlt, faEdit, faCheckSquare, faComment, faCommentMedical, faCommentDots, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
     display:flex;
@@ -17,6 +17,15 @@ const SubContainer = styled.div`
     overflow-y: hidden;
     background: #fff;
     padding: 60px 0 90px;
+    .button-submit {
+        border: none;
+        background-color: white;
+        cursor: pointer;
+        font-size: 1.5rem;
+    }
+    .button-submit:hover {
+        color: rgb(65,105,225);
+    }
     
     .header {
         display: flex;
@@ -114,7 +123,8 @@ class ClientHome extends Component {
         text: "",  
         editComment: false,
         postComment: false,
-        showComment: false
+        showComment: false,
+        newFeature: false
     }
 
     componentDidMount() {
@@ -241,6 +251,14 @@ class ClientHome extends Component {
         }
 
     }
+    handleNewFeature = () => 
+        this.setState({
+            newFeature: true
+        })
+    handleCloseFeature= () => 
+        this.setState({
+            newFeature: false
+        })
     handleOpenEdit = () => 
         this.setState({
             editComment: true
@@ -325,7 +343,7 @@ class ClientHome extends Component {
     }
 
     render() { 
-        const { post, text, editComment, postComment, showComment } = this.state
+        const { post, text, editComment, postComment, showComment, newFeature } = this.state
         console.log(this.state)
         const { currentUser } = this.props
         return ( 
@@ -337,7 +355,12 @@ class ClientHome extends Component {
                             && <h2 className="title"> Welcome <span className="span-text">{currentUser.name}</span></h2>
                         }
                     </div>
-                    <Post currentUser={currentUser} handleNewPost={this.handleNewPost} />
+                    <button className="button-submit" onClick={ newFeature ? ()=> this.handleCloseFeature() : () => this.handleNewFeature() }> Request a new feature! <br/> <FontAwesomeIcon size="2x" icon={faPlusSquare}/></button>
+                    {
+                        newFeature
+                        && 
+                        <Post currentUser={currentUser} handleNewPost={this.handleNewPost} />
+                    }
                     <div className="map-post-box">
                         {
                             post.length

@@ -23,6 +23,7 @@ const PostForm = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin: 1rem 0 1rem;
     }
     .input-box {
         display: flex;

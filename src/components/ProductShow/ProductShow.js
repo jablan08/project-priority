@@ -83,13 +83,19 @@ class ProductShow extends Component {
     console.log(product)
     return (
       <>
-        <div className="user-info">
+        <div style={{ textAlign: "center" }} className="user-info">
             <h1 style={{ textAlign: "center" }}>
                 {currentUser && currentUser.name}
             </h1>
             <h1 style={{ textAlign: "center" }}>
                 {currentUser && currentUser.email}
             </h1>
+            <h1>
+                Invite your clients by sharing your unique ID:
+            </h1>
+            <h2 style={{ textAlign: "center" }}>
+                {currentUser && currentUser._id}
+            </h2>
             {
                 currentUser
                 && <h2> {currentUser._id}</h2>
@@ -127,25 +133,11 @@ class ProductShow extends Component {
                     Save
                 </button>
           </form>
-        </div>
-        <button href="#modal5" className="modal-trigger">
-            Delete account
+        <button onClick={() => this.props.handleDeleteProduct(currentUser._id)}>
+            Delete acccount
         </button>
-        <form id="modal5">
-            Before you go....
-            <h6 style={{ textAlign: "center" }}> Is it Goodbye?</h6>
-            <br />
-            <p style={{ textAlign: "center" }}>
-                The account will no longer be available, and all data in the account
-                will be permanently deleted.
-            </p>
-            <button
-                onClick={() => this.props.handleDeleteProduct(currentUser._id)}
-                className="deleteBtn"
-            >
-                Yes!
-            </button>
-        </form>
+        </div>
+        
       </>
     );
   }
