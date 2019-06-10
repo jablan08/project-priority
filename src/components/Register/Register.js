@@ -22,7 +22,6 @@ const MainBox = styled.div`
         justify-content: center;
         flex: 1 1 auto;
         max-width: 420px;
-        margin: 0 0 100px;
         border-radius: 5px;
         box-sizing: border-box;
     }
@@ -79,6 +78,25 @@ const MainBox = styled.div`
     }
     .label-tag {
         font-size: 1.4rem;
+    }
+    .product-get-form {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+    .input-box-get {
+        display: flex;
+        flex-direction: column;
+        padding: 8px 12px;
+        background: #fff;
+        border: 1px solid #ddd;
+        cursor: text;
+        box-sizing: border-box;
+        border-radius: 5px;
+        margin: 2rem 0 2rem 0;
+    }
+    .product-span {
+        color: rgb(65,105,225);
     }
 `
 
@@ -207,42 +225,44 @@ class Register extends Component {
                             <button className="button-submit-top" onClick={this.showClientForm}>Business <br/><FontAwesomeIcon size="3x" icon={faBuilding}/></button>
                         </div>
                     </div>
-                    {
-                        product
-                        ?
-                            logged
-                            ? <Redirect to={`/product/home/${this.props.currentUser._id}`}/>
-                            : <ProductRegisterForm
-                                handleChange = {this.handleChange}
-                                handleProductSubmit = {this.handleProductSubmit}
-                                name = {name}
-                                password = {password}
-                                email = {email}
-                            />
-                        : client && productFetch
-                            ? logged
-                                ? 
-                                <Redirect to={`/clients/home/${this.props.currentUser._id}`}/>
-                                :
-                                <ClientRegisterForm
-                                handleChange = {this.handleChange}
-                                handleClientSubmit = {this.handleClientSubmit}
-                                name = {name}
-                                password = {password}
-                                email = {email}
-                                role = {role}
-                                company = {company}
-                                productFetch = {productFetch}
+                    <div className="sub-log-box">
+                        {
+                            product
+                            ?
+                                logged
+                                ? <Redirect to={`/product/home/${this.props.currentUser._id}`}/>
+                                : <ProductRegisterForm
+                                    handleChange = {this.handleChange}
+                                    handleProductSubmit = {this.handleProductSubmit}
+                                    name = {name}
+                                    password = {password}
+                                    email = {email}
                                 />
-                            
-                            : client
-                            &&
-                            <GetProductForm
-                            handleChange = {this.handleChange}
-                            handleGetProduct = {this.handleGetProduct}
-                            
-                            />
-                    }
+                            : client && productFetch
+                                ? logged
+                                    ? 
+                                    <Redirect to={`/clients/home/${this.props.currentUser._id}`}/>
+                                    :
+                                    <ClientRegisterForm
+                                    handleChange = {this.handleChange}
+                                    handleClientSubmit = {this.handleClientSubmit}
+                                    name = {name}
+                                    password = {password}
+                                    email = {email}
+                                    role = {role}
+                                    company = {company}
+                                    productFetch = {productFetch}
+                                    />
+                                
+                                : client
+                                &&
+                                <GetProductForm
+                                handleChange = {this.handleChange}
+                                handleGetProduct = {this.handleGetProduct}
+                                
+                                />
+                        }
+                    </div>
                 </MainBox>
             </RegisterContainer>
          );
@@ -261,8 +281,8 @@ class Register extends Component {
     
  const ClientRegisterForm = ({handleChange, handleClientSubmit, name, password, role, company, email, productFetch}) =>
     <>
-    <h2>You are registering for {productFetch}</h2>
-    <form onSubmit={e => handleClientSubmit(e)}>
+    <h2 className="sign-box">You are registering for <span className="product-span">{productFetch}</span></h2>
+    <form className="product-get-form" onSubmit={e => handleClientSubmit(e)}>
         <label className="label-tag" htmlFor="name">Name</label>
         <input className="input-box" type="text" name="name" onChange={handleChange} value={name}/>
         <label className="label-tag" htmlFor="password">Password</label>
@@ -278,9 +298,9 @@ class Register extends Component {
     </>
 
 const GetProductForm = ({handleChange, handleGetProduct}) =>
-    <form onSubmit={e => handleGetProduct(e)}>
-        <label className="label-tag" htmlFor="productId">Enter the unique product ID of that your business is using!</label>
-        <input className="input-box" type="text" name="productId" onChange={handleChange}/>
+    <form className="product-get-form" onSubmit={e => handleGetProduct(e)}>
+        <label className="label-tag" htmlFor="productId"> Enter the unique product ID of that your product is using! </label>
+        <input className="input-box-get" type="text" name="productId" onChange={handleChange}/>
         <button type="submit" className="button-submit"> Submit <FontAwesomeIcon size="lg" icon={faSignInAlt}/></button>
     </form>
 
