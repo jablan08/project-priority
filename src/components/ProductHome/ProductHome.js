@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleUp, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faAngleUp, faTrashAlt, faEdit, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
     display:flex;
@@ -80,14 +80,27 @@ const MapPostBox = styled.div`
     }
 `
 const CommentBox = styled.div`
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
+    .comment-title {
+        margin-bottom: 2rem;
+    }
+    .comments {
+        display: flex;
+        flex-direction: column;
+    }
+    .edit-comment-form {
+        display: flex;
+        flex-direction: column;
+    }
 `
 
 class ProductHome extends Component {
     state = { 
-        post: []
+        post: [],
+        editComment: false,
+        postComment: false
     }
 
     componentDidMount() {
@@ -209,6 +222,14 @@ class ProductHome extends Component {
         }
 
     }
+    handleOpenEdit = () => 
+        this.setState({
+            editComment: true
+        })
+    handleCloseEdit = () => 
+        this.setState({
+            editComment: false
+        })
     handleEditComments = async (id,index,cId) => {
         try {
             const obj = {
@@ -269,7 +290,7 @@ class ProductHome extends Component {
     }
 
     render() { 
-        const { post, text } = this.state
+        const { post, text, editComment, postComment } = this.state
         console.log(this.state)
         const { currentUser } = this.props
         return ( 
@@ -285,7 +306,7 @@ class ProductHome extends Component {
                         {
                             post.length
                             ?
-                            <MapPost posts={post} handleChange={this.handleChange} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes} handleComments={this.handleComments} text={text} handleEditComments={this.handleEditComments} handleDeleteComment={this.handleDeleteComment}/>
+                            <MapPost posts={post} handleChange={this.handleChange} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes} handleComments={this.handleComments} text={text} handleEditComments={this.handleEditComments} handleDeleteComment={this.handleDeleteComment} handleCloseEdit={this.handleCloseEdit} handleOpenEdit={this.handleOpenEdit} editComment={editComment} postComment={postComment}/>
                             : 
                             <h1> Loading</h1>
                         }
@@ -298,7 +319,7 @@ class ProductHome extends Component {
     }
 }
 
-const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange, handleComments, text, handleEditComments, handleDeleteComment})=> 
+const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange, handleComments, text, handleEditComments, handleDeleteComment, handleCloseEdit, handleOpenEdit, editComment, postComment})=> 
     <>
         <MapPostBox>
              <h1>Your feature request: </h1>
@@ -329,45 +350,59 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
                         <CommentBox>
                             {
                                 p.comments.map((c,v)=>
-                                    <div key={v}>
-                                        <p>
-                                        {c.text} - posted by {c.postedBy === null ? currentUser.name : c.postedBy.name } on... {new Date(c.datePosted).toDateString().slice(4)}
-                                        </p>
-                                        <button> Edit comment </button>
-                                        <div>
-                                            <form>
-                                                <label htmlFor="text">Edit Comment</label>
-                                                <textarea 
-                                                    name="text" 
-                                                    maxLength="500" 
-                                                    rows="6" 
-                                                    cols="50"
-                                                    placeholder={c.text} 
-                                                    onChange={handleChange}
-                                                    >
-                                                </textarea>
-                                            </form>
-                                            <button onClick={()=>handleEditComments(p._id, i, c._id)}> edit comment </button>
-                                            <button onClick={()=>handleDeleteComment(p._id, i, c._id)}> delete comment </button>
+                                    <div className="comments" key={v}>
+                                        <div className="comment-title-text">
+                                            <div className="comment-title">
+                                                <h2>
+                                                    Posted by: <span className="span-text"> {c.postedBy === null ? currentUser.name : c.postedBy.name }</span> 
+                                                </h2>
+                                                <h4>{new Date(c.datePosted).toDateString().slice(4)}</h4>
+                                            </div>
+                                            <div>
+                                                <h4>
+                                                    {c.text} 
+                                                </h4>
+                                                <button className="button-submit" onClick={ editComment ? ()=> handleCloseEdit() : ()=> handleOpenEdit()}> Edit comment <FontAwesomeIcon icon={faEdit}/> </button>
+                                            </div>
                                         </div>
+
+                                        {
+                                            editComment 
+                                            &&
+                                            <div className="edit-comment-form">
+                                                <form>
+                                                    <textarea 
+                                                        name="text" 
+                                                        maxLength="500" 
+                                                        rows="6" 
+                                                        cols="50"
+                                                        placeholder={c.text} 
+                                                        onChange={handleChange}
+                                                        >
+                                                    </textarea>
+                                                </form>
+                                                <button className="button-submit"  onClick={()=>handleEditComments(p._id, i, c._id)}> Submit Edit <FontAwesomeIcon icon={faCheckSquare}/> </button>
+                                                <button className="button-submit"  onClick={()=>handleDeleteComment(p._id, i, c._id)}> Delete comment <FontAwesomeIcon icon={faTrashAlt}/> </button>
+                                            </div>
+                                        }
 
                                     </div>
                                 )
                             }
                         </CommentBox>
-                                {/* <form>
-                                    <label htmlFor="text" >Comment</label>
-                                    <textarea 
-                                        name="text" 
-                                        maxLength="500" 
-                                        rows="6" 
-                                        cols="50" 
-                                        value={text}
-                                        onChange={handleChange}
-                                        >
-                                    </textarea>
-                                </form>
-                                <button onClick={()=>handleComments(p._id,i)} >Post Comment</button> */}
+                            <form>
+                                <label htmlFor="text" >Comment</label>
+                                <textarea 
+                                    name="text" 
+                                    maxLength="500" 
+                                    rows="6" 
+                                    cols="50" 
+                                    value={text}
+                                    onChange={handleChange}
+                                    >
+                                </textarea>
+                            </form>
+                            <button onClick={()=>handleComments(p._id,i)} >Post Comment</button>
                         <br/>
                         <button className="button-submit" onClick={()=> handleDeletePost(p._id)}> Delete request <FontAwesomeIcon icon={faTrashAlt}/></button>
                     </li>
