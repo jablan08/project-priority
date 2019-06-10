@@ -69,10 +69,11 @@ handleSubmit = async (e) => {
             }
         })
         const parsedResponse = await post.json();
+        console.log(parsedResponse, "response of post")
         console.log(parsedResponse.newPost, "response of post")
         if (parsedResponse.success) {
             console.log("worked")
-            this.props.handleNewPost(parsedResponse.newPost)
+            this.props.handleNewPost(parsedResponse.findPost)
         }
     } catch (error) {
         console.log(error)

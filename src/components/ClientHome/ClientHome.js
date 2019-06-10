@@ -313,6 +313,13 @@ class ClientHome extends Component {
             console.log(error)
         }
     }
+    loadPost =()=> {
+        this.handleGetPost().then(allData =>{
+            this.setState({
+                post: allData.sort(this.sortPost)
+            })
+        })
+    }
     handleDeleteComment = async (id, index, cId) => {
         console.log(this.state.post[this.state.post.findIndex(i => i._id === id)].comments.filter(d => d._id !== cId))
         try {
@@ -367,7 +374,7 @@ class ClientHome extends Component {
                             ?
                             <MapPost posts={post} showComment={showComment} handleChange={this.handleChange} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes} handleComments={this.handleComments} text={text} handleEditComments={this.handleEditComments} handleDeleteComment={this.handleDeleteComment} handleCloseEdit={this.handleCloseEdit} handleOpenEdit={this.handleOpenEdit} editComment={editComment} postComment={postComment} handleCloseComments={this.handleCloseComments} handleOpenComments={this.handleOpenComments} handleOpenPost={this.handleOpenPost} handleClosePost={this.handleClosePost}/>
                             : 
-                            <h1> Loading</h1>
+                            <h1> Loading...</h1>
                         }
 
                     </div>
@@ -408,7 +415,7 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
                         </div>
                         <button className="button-submit" onClick={ showComment ? ()=> handleCloseComments() : ()=> handleOpenComments()}> Show Comments <FontAwesomeIcon icon={faComment}/>{p.comments.length}</button>
                         {
-                            showComment
+                            showComment 
                             &&
                             <CommentBox>
                                 {

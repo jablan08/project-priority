@@ -151,8 +151,10 @@ router.post('/new', async (req, res) => {
     console.log(findProduct, "foundProducy================")
     req.body.clients = findClient
     req.body.product = findProduct
-    const newPost =  await Post.create(req.body).populate("clients").populate("comments.postedBy").exec();
+    const newPost =  await Post.create(req.body)
+    const findPost = await Post.findById(newPost._id).populate("clients").populate("comments.postedBy").exec();
     res.json({
+      findPost,
       newPost,
       success: newPost ? true : false
     })
