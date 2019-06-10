@@ -43,7 +43,7 @@ const Moblie = styled.div`
         display: flex;
     }
     .btn {
-    background-color: DodgerBlue; 
+    background-color: rgb(65,105,225); 
     border: none; 
     color: white;
     font-size: 3.5rem; 

@@ -12,3 +12,5 @@ html {
 body {
 	box-sizing: border-box;
 }
+
+button:focus {outline:0;}

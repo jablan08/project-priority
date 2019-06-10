@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
 import styled from "styled-components";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt }from '@fortawesome/free-solid-svg-icons';
 
 const LoginContainer = styled.div`
     display: flex;
@@ -47,6 +49,18 @@ const MainBox = styled.div`
         line-height: 36px;
         letter-spacing: .03em;
         }
+    .button-submit {
+        border: none;
+        float: right;
+        background-color: white;
+        cursor: pointer;
+    }
+    .button-submit:hover {
+        color: rgb(65,105,225);
+    }
+    .label-tag {
+        font-size: 1.4rem;
+    }
 `
 
 class Login extends Component {
@@ -110,11 +124,11 @@ class Login extends Component {
                                         ? <Redirect to={`/clients/${this.props.currentUser._id}`}/>
                                         : <Redirect to={`/product/${this.props.currentUser._id}`}/>
                                     : <form onSubmit={e => this.handleSubmit(e)}>
-                                        <label htmlFor="email">Email</label>
+                                        <label className="label-tag" htmlFor="email">Email</label>
                                         <input className="input-box" type="text" name="email" onChange={this.handleChange} value={email}/>
-                                        <label htmlFor="password">Password</label>
+                                        <label className="label-tag" htmlFor="password">Password</label>
                                         <input className="input-box" type="password" name="password" onChange={this.handleChange} value={password}/>
-                                        <button type="submit"> Submit</button>
+                                        <button type="submit" className="button-submit"> Submit <FontAwesomeIcon size="lg" icon={faSignInAlt}/></button>
                                         {message}
                                     </form>
                                 }
