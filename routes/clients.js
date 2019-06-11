@@ -53,7 +53,7 @@ router.put('/:id', async (req, res) => {
     }
   });
 
-// DELETE USER
+// DELETE CLIENT
 router.delete('/:id', async (req, res) => {
   try {
     const findProduct = await Product.findOne({"clients": req.params.id})
@@ -72,16 +72,12 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/new', async (req, res) => {
   try {
-    console.log(req.body, "da body")
+    
     const findProduct = await Product.findById(req.body.product)
     req.body.product = findProduct
     const newClient = await Client.create(req.body) 
-    console.log(findProduct, "hittt before")
     findProduct.clients.push(newClient)
-    console.log("pass")
     findProduct.save()
-    console.log(newClient, "client")
-    console.log(findProduct, "product")
     res.json({
       newClient,
       success: newClient ? true : false
@@ -102,7 +98,6 @@ router.post('/logout', (req, res) => {
 })
 
 
-// ADD TO WATCHLIST
 router.post("/add", async (req,res)=> {
   try {
     const foundUser = await Client.findById(req.session.userDbId)
@@ -121,28 +116,10 @@ router.post("/add", async (req,res)=> {
       message: "Add to watch list!"
     })
   } catch (error) {
-    console.log(error)
+    res.json({
+      error
+    })
   }
 })
-
-
-// DELETE FROM WATCHLIST
-router.delete('/watchlist/:id', async (req, res) => {
-  try {
-    const foundUser = await Client.findById(req.session.userDbId);
-   
-    foundUser.watchList.splice(req.params.id,1)
-    await foundUser.save();
-    
-    res.json({
-      foundUser
-    });
-  } catch(err) {
-    res.send(err)
-  }
-});
-
-
-
 
 module.exports = router;
