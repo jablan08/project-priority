@@ -96,7 +96,7 @@ const Button = styled.button`
     :hover {
         color: rgb(30,144,255);
     }
-    font-size: ${props => props.primary ? "1.4rem" : "2.5rem"};
+    font-size: ${props => props.primary ? "1.4rem" : "2rem"};
 `
 const Title = styled.h1`
     color: rgb(65,105,225);
