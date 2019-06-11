@@ -62,7 +62,7 @@ const Moblie = styled.div`
     }
 `
 const Nav = styled(NavLink)`
-    font-size: ${props => props.primary ? "1.4rem" : "2.5rem"};
+    font-size: ${props => props.primary ? "1.4rem" : "2rem"};
     color: rgb(169,169,169);   
     margin: 0.5rem; 
     :hover {
@@ -154,9 +154,9 @@ const NavContent = ({currentUser, doLogout}) =>
         {
             currentUser.name
             ? currentUser.company
-                ? <Nav to={`${routes.CLIENT}/home/${currentUser._id}`}> HOME </Nav>
-                : <Nav to={`${routes.PRODUCT}/home/${currentUser._id}`}> HOME </Nav>
-            : <Nav exact to={routes.ROOT} activeClassName="active">HOME</Nav>
+                ? <Nav to={`${routes.CLIENT}/home/${currentUser._id}`}> Home </Nav>
+                : <Nav to={`${routes.PRODUCT}/home/${currentUser._id}`}> Home </Nav>
+            : <Nav exact to={routes.ROOT} activeClassName="active">Home</Nav>
         }
         {/* <Nav exact to={routes.POST} activeClassName="active">POST</Nav> */}
         {
@@ -164,13 +164,13 @@ const NavContent = ({currentUser, doLogout}) =>
             ? <span className="message"> 
             {
                 currentUser.company
-                ? <Nav to={`${routes.CLIENT}/${currentUser._id}`}> ACCOUNT </Nav>
-                : <Nav to={`${routes.PRODUCT}/${currentUser._id}`}> ACCOUNT </Nav>
+                ? <Nav to={`${routes.CLIENT}/${currentUser._id}`}> Account </Nav>
+                : <Nav to={`${routes.PRODUCT}/${currentUser._id}`}> Account </Nav>
             }
-            <Button onClick={doLogout} className="navButton" >LOGOUT</Button>
+            <Button onClick={doLogout} className="navButton" >Logout</Button>
             </span>
-            : [<Nav key={1} to={routes.LOGIN} activeClassName="active">LOGIN </Nav>,
-            <Nav key={2} to={routes.REGISTER} activeClassName="active">REGISTER </Nav> ]   
+            : [<Nav key={2} to={routes.REGISTER} activeClassName="active">Register </Nav>,
+            <Nav key={1} to={routes.LOGIN} activeClassName="active">Log in </Nav> ]   
         }
     </>
 const NavContentMoblie = ({currentUser, doLogout}) => 
@@ -178,23 +178,23 @@ const NavContentMoblie = ({currentUser, doLogout}) =>
         {
             currentUser.name
             ? currentUser.company
-                ? <Nav primary="true" to={`${routes.CLIENT}/home/${currentUser._id}`}> HOME </Nav>
-                : <Nav primary="true" to={`${routes.PRODUCT}/home/${currentUser._id}`}> HOME </Nav>
-            : <Nav primary="true" exact to={routes.ROOT} activeClassName="active">HOME</Nav>
+                ? <Nav primary="true" to={`${routes.CLIENT}/home/${currentUser._id}`}> Home </Nav>
+                : <Nav primary="true" to={`${routes.PRODUCT}/home/${currentUser._id}`}> Home </Nav>
+            : <Nav primary="true" exact to={routes.ROOT} activeClassName="active">Home</Nav>
         }
-        <Nav primary="true" exact to={routes.POST} activeClassName="active">POST</Nav>
+        {/* <Nav primary="true" exact to={routes.POST} activeClassName="active">POST</Nav> */}
         {
             currentUser.name
             ? <span className="message"> 
             {
                 currentUser.company
-                ? <Nav primary="true" to={`${routes.CLIENT}/${currentUser._id}`}> ACCOUNT </Nav>
-                : <Nav primary="true" to={`${routes.PRODUCT}/${currentUser._id}`}> ACCOUNT </Nav>
+                ? <Nav primary="true" to={`${routes.CLIENT}/${currentUser._id}`}> Account </Nav>
+                : <Nav primary="true" to={`${routes.PRODUCT}/${currentUser._id}`}> Account </Nav>
             }
-            <Button onClick={doLogout} className="navButton" >LOGOUT</Button>
+            <Button onClick={doLogout} className="navButton" >Logout</Button>
             </span>
-            : [<Nav primary="true" key={1} to={routes.LOGIN} activeClassName="active">LOGIN </Nav>,
-            <Nav primary="true" key={2} to={routes.REGISTER} activeClassName="active">REGISTER </Nav> ]   
+            : [<Nav primary="true" key={2} to={routes.REGISTER} activeClassName="active">Register </Nav>,
+            <Nav primary="true" key={1} to={routes.LOGIN} activeClassName="active">Log in </Nav> ]   
         }
     </>
 export default NavBar;

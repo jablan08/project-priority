@@ -162,7 +162,7 @@ const Home = () =>
                 <span className="subtitle">Capture feedback in one organized place to inform your product decisions.</span>
                 </div>
                 <div className="right-side">
-                    <img className="right-side-img" src="/imgs/temp_pp.gif"/>
+                    <img className="right-side-img" src="/imgs/temp_pp.gif" alt="thinking gif"/>
                 </div>
             </header>
         </HomeTop>
@@ -185,7 +185,7 @@ const Home = () =>
                     </ul>
                 </div>
                 <div className="img-side">
-                    <img className="img-tag" src="/imgs/feature-manage-pp.png"></img>
+                    <img className="img-tag" src="/imgs/feature-manage-pp.png" alt="feature request"></img>
                 </div>
 
             </div>
@@ -208,7 +208,7 @@ const Home = () =>
                     </ul>
                 </div>
                 <div className="img-side">
-                    <img className="img-tag" src="/imgs/vote-placeholder.png"></img>
+                    <img className="img-tag" src="/imgs/vote-placeholder.png" alt="Vote example"></img>
                 </div>
 
             </div>

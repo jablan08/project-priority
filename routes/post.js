@@ -110,7 +110,6 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE USER
 router.delete('/:id', async (req, res) => {
   try {
     const deletedPost = await Post.findByIdAndRemove(req.params.id);  
@@ -126,7 +125,8 @@ router.put("/comments/delete/:id", async (req, res) => {
     // postDeletedComment.comments[postDeletedComment.comments.findIndex(i => i._id == req.body.commentId)]
     console.log(postDeletedComment.comments.findIndex(i => i._id == req.body.commentId))
     console.log(req.body)
-    postDeletedComment.comments.splice(postDeletedComment.comments.findIndex(i => i._id == req.body.commentId),1)
+    postDeletedComment.comments.filter(d => d_id !== req.body.commentId)
+    // postDeletedComment.comments.splice(postDeletedComment.comments.findIndex(i => i._id == req.body.commentId),1)
     postDeletedComment.save()
     // console.log(postDeletedComment)
     res.json({
