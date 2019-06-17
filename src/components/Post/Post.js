@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { faCheckSquare, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 const Postbox = styled.div`
     display:flex;
@@ -92,6 +92,7 @@ handleSubmit = async (e) => {
                         <textarea className="input-box" text="text" name="text" maxLength="500" rows="6" cols="50" onChange={this.handleChange} value={text}></textarea>
                         <button className="button-submit"> Submit Post <FontAwesomeIcon icon={faCheckSquare}/> </button>
                     </form>
+                    <button className="button-submit" onClick={()=> this.props.handleCloseFeature()}> Close <FontAwesomeIcon icon={faTimesCircle}/> </button>
 
                 </PostForm>
             </Postbox>

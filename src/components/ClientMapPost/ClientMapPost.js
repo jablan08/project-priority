@@ -80,10 +80,10 @@ const CommentBox = styled.div`
     }
 `
 
-const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange, handleComments, text, handleEditComments, handleDeleteComment, handleCloseEdit, handleOpenEdit, handleCloseComments, handleOpenComments, editComment, postComment, showComment, handleOpenPost, handleClosePost, selectedPost, selectedComment, selectedEdit})=> 
+const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange, handleComments, text, handleEditComments, handleDeleteComment, handleCloseEdit, handleOpenEdit, handleCloseComments, handleOpenComments, editComment, postComment, showComment, handleOpenPost, handleClosePost, selectedPost, selectedComment, selectedEdit})=>
     <>
         <MapPostBox>
-             <h1>Your feature request: </h1>
+             <h1>Current feature request: </h1>
             { 
                 posts.map((p, i) => 
                 <li key={i} className="li-tags">
@@ -108,11 +108,7 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
 
                             </div>
                         </div>
-                        {
-                            p.comments.length !== 0
-                            &&
-                            <button className="button-submit" onClick={ showComment ? ()=> handleCloseComments() : ()=> handleOpenComments(p._id)}> Show Comments <FontAwesomeIcon icon={faComment}/> {p.comments.length}</button>
-                        }
+                        <button className="button-submit" onClick={ showComment ? ()=> handleCloseComments() : ()=> handleOpenComments(p._id)}> Show Comments <FontAwesomeIcon icon={faComment}/>{p.comments.length}</button>
                         {
                             showComment && selectedComment === p._id
                             &&
@@ -131,7 +127,12 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
                                                     {c.text} 
                                                 </h4>
                                                 <div className="button-edit">
-                                                    <button className="button-submit" onClick={ editComment ? ()=> handleCloseEdit() : ()=> handleOpenEdit(c._id)}> Edit comment <FontAwesomeIcon icon={faEdit}/> </button>
+                                                    {
+                                                        c.postedBy !== null
+                                                        && currentUser._id === c.postedBy._id
+                                                            &&
+                                                            <button className="button-submit" onClick={ editComment ? ()=> handleCloseEdit() : ()=> handleOpenEdit(c._id)}> Edit comment <FontAwesomeIcon icon={faEdit}/> </button>
+                                                    }
                                                     {
                                                         editComment && selectedEdit === c._id
                                                         &&
@@ -172,7 +173,6 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
                                 <div className="post-comment-form">
                                     <button className="button-submit" onClick={()=> handleClosePost()}> Close <FontAwesomeIcon icon={faTimesCircle}/> </button>
                                     <form>
-                                        {/* <label htmlFor="text" >Comment</label> */}
                                         <textarea 
                                             name="text" 
                                             maxLength="500" 
@@ -186,7 +186,11 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
                                     <button className="button-submit" onClick={()=>handleComments(p._id,i)}>Submit Comment <FontAwesomeIcon icon={faCommentDots}/></button>
                                 </div>
                         }
-                        <button className="button-submit" onClick={()=> handleDeletePost(p._id)}> Delete request <FontAwesomeIcon icon={faTrashAlt}/></button>
+                        {
+                            currentUser._id === p.clients[0]._id
+                            &&
+                            <button className="button-submit" onClick={()=> handleDeletePost(p._id)}> Delete request <FontAwesomeIcon icon={faTrashAlt}/></button>
+                        }
                     </li>
                 
                 )
@@ -194,5 +198,5 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
 
         </MapPostBox>
     </>
- 
-export default MapPost;
+
+    export default MapPost

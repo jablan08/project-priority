@@ -89,25 +89,6 @@ class ProductHome extends Component {
             console.log(error)
         }
     }
-    handleRefreshPost = async () => {
-        try {
-            const getPost = await fetch(`/posts/product`, {
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            const parsedResponse = await getPost.json()
-            console.log(parsedResponse, "========")
-            if (parsedResponse) {
-                this.setState({
-                    post: parsedResponse.posts
-                })
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
     handleDeletePost = async id => {
         try {
             const deletePhrase = await fetch(`/posts/${id}`, {
@@ -273,7 +254,7 @@ class ProductHome extends Component {
     }
 
     render() { 
-        const { post, text, editComment, postComment, showComment, selectedComment, selectedPost } = this.state
+        const { post, text, editComment, postComment, showComment, selectedComment, selectedPost, selectedEdit } = this.state
         console.log(this.state)
         const { currentUser } = this.props
         return ( 
@@ -289,7 +270,7 @@ class ProductHome extends Component {
                         {
                             post.length
                             ?
-                            <MapPost posts={post} showComment={showComment} handleChange={this.handleChange} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes} handleComments={this.handleComments} text={text} handleEditComments={this.handleEditComments} handleDeleteComment={this.handleDeleteComment} handleCloseEdit={this.handleCloseEdit} handleOpenEdit={this.handleOpenEdit} editComment={editComment} postComment={postComment} handleCloseComments={this.handleCloseComments} handleOpenComments={this.handleOpenComments} handleOpenPost={this.handleOpenPost} handleClosePost={this.handleClosePost} selectedComment={selectedComment} selectedPost={selectedPost}/>
+                            <MapPost posts={post} showComment={showComment} handleChange={this.handleChange} currentUser={this.props.currentUser} handleDeletePost={this.handleDeletePost} handleVotes={this.handleVotes} handleComments={this.handleComments} text={text} handleEditComments={this.handleEditComments} handleDeleteComment={this.handleDeleteComment} handleCloseEdit={this.handleCloseEdit} handleOpenEdit={this.handleOpenEdit} editComment={editComment} postComment={postComment} handleCloseComments={this.handleCloseComments} handleOpenComments={this.handleOpenComments} handleOpenPost={this.handleOpenPost} handleClosePost={this.handleClosePost} selectedComment={selectedComment} selectedPost={selectedPost} selectedEdit={selectedEdit}/>
                             : 
                             <h1> Get your unique ID under "Account", and start sending it to your clients! Your feature request will start rolling in then. </h1>
                         }
