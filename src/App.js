@@ -34,6 +34,20 @@ class App extends Component {
       
     })
   }
+  doLogout= async () => {
+    await fetch("/login/logout", {
+      credentials: "include",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    localStorage.clear()
+    this.setState({
+      currentUser: {}
+    })
+    this.props.history.push(routes.ROOT)
+  }
   handleDeleteProduct = async id => {
         
     try {
@@ -52,20 +66,6 @@ class App extends Component {
     console.log(error);
     }
   };
-  doLogout= async () => {
-    await fetch("/login/logout", {
-    credentials: "include",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-      }
-    })
-    localStorage.clear()
-    this.setState({
-      currentUser: {}
-    })
-    this.props.history.push(routes.ROOT)
-  }
   render() { 
     const { currentUser } = this.state
     return ( 

@@ -158,11 +158,11 @@ const Home = () =>
         <HomeTop>
             <header>
                 <div className="left-side">
-                <span className="title">Track feedback to build better products.</span>
-                <span className="subtitle">Capture feedback in one organized place to inform your product decisions.</span>
+                <span className="title">Monitor feedback to prioritize what clients want and what features to build </span>
+                <span className="subtitle"> Organize product decisions based off of client feed back and feature requests.</span>
                 </div>
                 <div className="right-side">
-                    <img className="right-side-img" src="/imgs/temp_pp.gif" alt="thinking gif"/>
+                    <img className="right-side-img" src="/imgs/thoughts.png" alt="thinking gif"/>
                 </div>
             </header>
         </HomeTop>
@@ -170,17 +170,17 @@ const Home = () =>
             <div className="mid-container">
                 <div className="text-content">
                     <h2 className="title">
-                        Manage expectations across the board.
+                        Instantly communicate with clients managing expectations.
                     </h2>
                     <p className="subtitle">
-                         Not every feature should be built. Communicate to customers and teammates which features have been prioritized.
+                        Keep everyone up to date with product decisions and what feature request are being prioritized.
                     </p>
                     <ul>
                         <li>
-                            Provide explanations for product decisions.
+                            Communicate why a feature won't be built or explain why a explain is being prioritized.
                         </li>
                         <li>
-                            Encourage collaboration on prioritized features.
+                            Prioritized features can be seen by everyone, encourage clients to collaborate!
                         </li>
                     </ul>
                 </div>
@@ -192,15 +192,14 @@ const Home = () =>
             <div className="mid-container-2">
                 <div className="text-content">
                     <h2 className="title">
-                        Feature voting board
+                        Feature request voting board
                     </h2>
                     <p className="subtitle">
-                        Instead of sending users to an email form, let them vote on features. They'll love your transparency and commitment to building a great product.
+                        When a feature request is created, clients can vote on what features they want the most. Prioritize the features wanted the most allowing clients to see that their feedback is taken seriously.
                     </p>
                     <ul>
                         <li>
-                            Automatically group similar requests.
-    
+                            Comments can be made on all request. If clarification is needed, easily reach out to clients or teammates.
                         </li>
                         <li>
                             Reach out to everyone with the same request and enable discussion.

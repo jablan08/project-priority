@@ -127,7 +127,7 @@ class Login extends Component {
                                         <label className="label-tag" htmlFor="email">Email</label>
                                         <input className="input-box" type="text" name="email" onChange={this.handleChange} value={email}/>
                                         <label className="label-tag" htmlFor="password">Password</label>
-                                        <input className="input-box" type="password" name="password" onChange={this.handleChange} value={password}/>
+                                        <input className="input-box" type="password" name="password" onChange={this.handleChange} value={password} autoComplete="off"/>
                                         <button type="submit" className="button-submit"> Submit <FontAwesomeIcon size="lg" icon={faSignInAlt}/></button> <br/>
                                         <h6>{message} </h6> <br/>
                                     </form>
