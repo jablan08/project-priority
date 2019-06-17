@@ -124,7 +124,9 @@ class ClientHome extends Component {
         editComment: false,
         postComment: false,
         showComment: false,
-        newFeature: false
+        newFeature: false,
+        selectedComment: "",
+        selectedPost: ""
     }
 
     componentDidMount() {
@@ -260,28 +262,32 @@ class ClientHome extends Component {
             newFeature: false
         })
     handleOpenEdit = () => 
-        this.setState({
-            editComment: true
-        })
+    this.setState({
+        editComment: true
+    })
     handleCloseEdit = () => 
         this.setState({
             editComment: false
         })
-    handleOpenComments = () => 
+    handleOpenComments = (id) => 
         this.setState({
-            showComment: true
+            showComment: true,
+            selectedComment: id
         })
     handleCloseComments = () => 
         this.setState({
-            showComment: false
+            showComment: false,
+            selectedComment: ""
         })
-    handleOpenPost = () => 
+    handleOpenPost = (id) => 
         this.setState({
-            postComment: true
+            postComment: true,
+            selectedPost: id
         })
     handleClosePost = () => 
         this.setState({
-            postComment: false
+            postComment: false,
+            selectedPost: ""
         })
     handleEditComments = async (id,index,cId) => {
         try {

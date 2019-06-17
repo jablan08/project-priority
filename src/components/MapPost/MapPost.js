@@ -76,7 +76,7 @@ const CommentBox = styled.div`
     }
 `
 
-const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange, handleComments, text, handleEditComments, handleDeleteComment, handleCloseEdit, handleOpenEdit, handleCloseComments, handleOpenComments, editComment, postComment, showComment, handleOpenPost, handleClosePost, selectedPost, selectedComment})=> 
+const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange, handleComments, text, handleEditComments, handleDeleteComment, handleCloseEdit, handleOpenEdit, handleCloseComments, handleOpenComments, editComment, postComment, showComment, handleOpenPost, handleClosePost, selectedPost, selectedComment, selectedEdit})=> 
     <>
         <MapPostBox>
              <h1>Your feature request: </h1>
@@ -127,12 +127,12 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
                                                     <h4>
                                                         {c.text} 
                                                     </h4>
-                                                    <button className="button-submit" onClick={ editComment ? ()=> handleCloseEdit() : ()=> handleOpenEdit()}> Edit comment <FontAwesomeIcon icon={faEdit}/> </button>
+                                                    <button className="button-submit" onClick={ editComment ? ()=> handleCloseEdit() : ()=> handleOpenEdit(p._id)}> Edit comment <FontAwesomeIcon icon={faEdit}/> </button>
                                                 </div>
                                             </div>
 
                                             {
-                                                editComment 
+                                                editComment && selectedEdit === p._id
                                                 &&
                                                 <div className="edit-comment-form">
                                                     <form>
