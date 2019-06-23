@@ -154,6 +154,7 @@ class ProductHome extends Component {
                 console.log(response)
                 let postArray = [...this.state.post]
                 postArray[index] = response.postComment
+                this.handleClosePost();
                 this.setState({
                     post: postArray.sort(this.sortPost),
                     text: ""

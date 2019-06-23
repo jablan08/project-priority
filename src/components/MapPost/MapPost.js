@@ -116,6 +116,11 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
                         {
                             showComment && selectedComment === p._id
                             &&
+                            <button className="button-submit" onClick={()=> handleCloseComments()}> Close <FontAwesomeIcon icon={faTimesCircle}/> </button>
+                        }
+                        {
+                            showComment && selectedComment === p._id
+                            &&
                             <CommentBox>
                                 {
                                     p.comments.map((c,v)=>

@@ -5,6 +5,7 @@ import styled from "styled-components";
 const HomeContainer = styled.div`
     display:flex;
     flex-direction: column;
+    
 
 `
 const HomeTop = styled.section`
@@ -95,6 +96,13 @@ const HomeMid = styled.section`
         width: 100%;
         justify-content: space-between;
 
+    }
+
+    @media (max-width: 50rem) {
+        .mid-container, .mid-container-2 {
+            flex-direction: column;
+            align-items: center;
+        }
     }
     .text-content {
         max-width: 45%;

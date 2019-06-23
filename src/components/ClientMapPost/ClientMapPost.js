@@ -108,7 +108,16 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
 
                             </div>
                         </div>
-                        <button className="button-submit" onClick={ showComment ? ()=> handleCloseComments() : ()=> handleOpenComments(p._id)}> Show Comments <FontAwesomeIcon icon={faComment}/>{p.comments.length}</button>
+                        {
+                                p.comments.length !== 0
+                                &&
+                                 <button className="button-submit" onClick={ showComment ? ()=> handleCloseComments() : ()=> handleOpenComments(p._id)}> Show Comments <FontAwesomeIcon icon={faComment}/>{p.comments.length}</button>
+                        }
+                        {
+                            showComment && selectedComment === p._id
+                            &&
+                            <button className="button-submit" onClick={()=> handleCloseComments()}> Close <FontAwesomeIcon icon={faTimesCircle}/> </button>
+                        }
                         {
                             showComment && selectedComment === p._id
                             &&
