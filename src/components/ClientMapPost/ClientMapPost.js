@@ -128,7 +128,7 @@ const MapPost =({posts, handleDeletePost, handleVotes, currentUser, handleChange
                                             <div className="comment-title-text">
                                                 <div className="comment-title">
                                                     <h2>
-                                                        Posted by: <span className="span-text"> {c.postedBy === null ? currentUser.name : c.postedBy.name }</span> 
+                                                        Posted by: <span className="span-text"> {c.postedBy === null ? p.product.name : c.postedBy.name }</span> 
                                                     </h2>
                                                     <h4>{new Date(c.datePosted).toDateString().slice(4)}</h4>
                                                 </div>

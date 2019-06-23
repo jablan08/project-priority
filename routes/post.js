@@ -12,7 +12,7 @@ const Post = require("../models/Post")
 router.get('/clients', async (req, res) => {
   
   try {
-    const posts = await Post.find({"product": req.session.productDbId}).populate("clients").populate("comments.postedBy").exec();
+    const posts = await Post.find({"product": req.session.productDbId}).populate("clients").populate("product").populate("comments.postedBy").exec();
     res.json({
       posts
     })
@@ -70,10 +70,8 @@ router.put('/votes/:id', async (req, res) => {
 router.put("/comments/:id", async (req,res) => {
   try {
     const findClient = await Client.findById(req.body.client)
-    console.log(req.body.client)
-    console.log(req.body, "============")
     req.body.postedBy = findClient
-    const postComment = await Post.findById(req.params.id).populate("clients").populate("comments.postedBy").exec();
+    const postComment = await Post.findById(req.params.id).populate("clients").populate("product").populate("comments.postedBy").exec();
     postComment.comments.push(req.body)
     postComment.save()
     res.json({
@@ -89,7 +87,7 @@ router.put("/comments/edit/:id", async (req,res) => {
   try {
     const findClient = await Client.findById(req.body.client)
     req.body.postedBy = findClient
-    const postComment = await Post.findById(req.params.id).populate("clients").populate("comments.postedBy").exec();
+    const postComment = await Post.findById(req.params.id).populate("clients").populate("product").populate("comments.postedBy").exec();
     postComment.comments[postComment.comments.findIndex(i => i._id == req.body.commentId)].text = req.body.text
     postComment.save()
     res.json({
