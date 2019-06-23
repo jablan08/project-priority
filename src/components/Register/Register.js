@@ -24,6 +24,7 @@ const MainBox = styled.div`
         max-width: 420px;
         border-radius: 5px;
         box-sizing: border-box;
+        /* text-align: center; */
     }
     .login-box {
         display: flex;
@@ -122,6 +123,7 @@ class Register extends Component {
    
     handleProductSubmit = async (e) => {
         e.preventDefault();
+        const { name, email } = this.state
         try {
             const createProduct = await fetch("/product/new", {
                 method: "POST",
@@ -141,17 +143,23 @@ class Register extends Component {
                         logged: true,
                         errorMsgProduct: ""
                     })
+                } else if (parsedResponse.errmsg === `E11000 duplicate key error collection: project_priority.products index: email_1 dup key: { : "${email}" }`) {
+                    this.setState({
+                        errorMsgProduct: "This email has already registered. Please enter a different email."
+                    })
+                } else if (parsedResponse.errmsg === `E11000 duplicate key error collection: project_priority.products index: name_1 dup key: { : "${name}" }`) {
+                    this.setState({
+                        errorMsgProduct: "Username has been taken. Please enter a different username."
+                    })
+                } else if (parsedResponse.name === "ValidationError" ){
+                    this.setState({
+                        errorMsgProduct: "Please fill out all required fields."
+                    })
                 }
         } catch (error) {
-            if (error.code === 11000) {
-                this.setState({
-                    errorMsgProduct: "This email has already registered. Please enter a different email."
-                })
-            } else if (error.name === "ValidationError" ){
-                this.setState({
-                    errorMsgProduct: "Please fill out all required fields."
-                })
-            }
+            this.setState({
+                errorMsgProduct: "There was a server error. Please contact administrator"
+            })
         }
     }
     showProductForm = () =>
@@ -218,17 +226,27 @@ class Register extends Component {
                         logged: true,
                         errorMsgClient: ""
                     })
-                } else if (parsedResponse.error.code === 11000) {
+                } else if (parsedResponse.error.errmsg === `E11000 duplicate key error collection: project_priority.clients index: email_1 dup key: { : "${email}" }`) {
                     this.setState({
                         errorMsgClient: "This email has already registered. Please enter a different email."
+                    })
+                } else if (parsedResponse.error.errmsg === `E11000 duplicate key error collection: project_priority.clients index: name_1 dup key: { : "${name}" }`) {
+                    this.setState({
+                        errorMsgClient: "Username has been taken. Please enter a different username."
                     })
                 } else if (parsedResponse.error.name === "ValidationError" ){
                     this.setState({
                         errorMsgClient: "Please fill out all required fields."
                     })
+                } else {
+                    this.setState({
+                        errorMsgClient: "There was a server error. Please try and log in. If the error continues, please contact the administrator."
+                    })
                 }
         } catch (error) {
-           
+           this.setState({
+               errorMsgClient: "There was a server error. Please contact administrator"
+           })
         }
     }
     
@@ -295,10 +313,11 @@ class Register extends Component {
     }
 }
  const ProductRegisterForm = ({handleChange, handleProductSubmit, name, password, email, errorMsgProduct}) =>
-    <form onSubmit={e => handleProductSubmit(e)}>
+    <form className="product-get-form" onSubmit={e => handleProductSubmit(e)}>
         {
             errorMsgProduct
-            && <h3 style={{textAlign: "center", color: "red"}}> {errorMsgProduct}</h3>
+            ? <h3 style={{textAlign: "center", color: "red"}}> {errorMsgProduct}</h3>
+            : <h3 style={{visibility: "hidden"}}> {errorMsgProduct}</h3>
         }
         <label className="label-tag" htmlFor="name">Name</label>
         <input className="input-box" type="text" name="name" onChange={handleChange} value={name}/>
@@ -317,7 +336,7 @@ class Register extends Component {
             errorMsgClient
             && <h3 style={{textAlign: "center", color: "red"}}> {errorMsgClient}</h3>
         }
-        <label className="label-tag" htmlFor="name">Name</label>
+        <label className="label-tag" htmlFor="name">Username</label>
         <input className="input-box" type="text" name="name" onChange={handleChange} value={name}/>
         <label className="label-tag" htmlFor="password">Password</label>
         <input className="input-box" type="password" name="password" onChange={handleChange}value={password} autoComplete=""/>

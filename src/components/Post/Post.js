@@ -73,7 +73,12 @@ handleSubmit = async (e) => {
         console.log(parsedResponse.newPost, "response of post")
         if (parsedResponse.success) {
             console.log("worked")
-            this.props.handleNewPost(parsedResponse.findPost)
+            this.props.handleNewPost(parsedResponse.findPost);
+            this.props.handleCloseFeature();
+            this.setState({
+                title: "",
+                text: ""
+            })
         }
     } catch (error) {
         console.log(error)
