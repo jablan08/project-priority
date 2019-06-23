@@ -87,6 +87,7 @@ router.post('/new', async (req, res) => {
       success: newClient ? true : false
     })
   } catch (error) {
+    console.log(error)
     res.json({error})
   } 
 });

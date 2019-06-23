@@ -143,11 +143,11 @@ class Register extends Component {
                         logged: true,
                         errorMsgProduct: ""
                     })
-                } else if (parsedResponse.errmsg === `E11000 duplicate key error collection: heroku_9hv1klh9.products.$email_1 dup key: { : "${email}" }`) {
+                } else if (parsedResponse.errmsg === `E11000 duplicate key error index: heroku_9hv1klh9.products.$email_1 dup key: { : "${email}" }`) {
                     this.setState({
                         errorMsgProduct: "This email has already registered. Please enter a different email."
                     })
-                } else if (parsedResponse.errmsg === `E11000 duplicate key error collection: heroku_9hv1klh9.products.$name_1 dup key: { : "${name}" }`) {
+                } else if (parsedResponse.errmsg === `E11000 duplicate key error index: heroku_9hv1klh9.products.$name_1 dup key: { : "${name}" }`) {
                     this.setState({
                         errorMsgProduct: "Username has been taken. Please enter a different username."
                     })
@@ -226,11 +226,11 @@ class Register extends Component {
                         logged: true,
                         errorMsgClient: ""
                     })
-                } else if (parsedResponse.error.errmsg === `E11000 duplicate key error collection: heroku_9hv1klh9.clients.$email_1 dup key: { : "${email}" }`) {
+                } else if (parsedResponse.error.errmsg === `E11000 duplicate key error index: heroku_9hv1klh9.clients.$email_1 dup key: { : "${email}" }`) {
                     this.setState({
                         errorMsgClient: "This email has already registered. Please enter a different email."
                     })
-                } else if (parsedResponse.error.errmsg === `E11000 duplicate key error collection: heroku_9hv1klh9.clients.$name_1 dup key: { : "${name}" }`) {
+                } else if (parsedResponse.error.errmsg === `E11000 duplicate key error index: heroku_9hv1klh9.clients.$name_1 dup key: { : "${name}" }`) {
                     this.setState({
                         errorMsgClient: "Username has been taken. Please enter a different username."
                     })
