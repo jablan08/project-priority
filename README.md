@@ -6,6 +6,7 @@ Prioritize what clients want by use of a voting system! Project Priority was bui
 [Project](https://projectpriority.herokuapp.com/) deployed using Heroku.
 
 To see examples of this app offers use:
+
 Email: pp@pp.com
 Password: 1
 
