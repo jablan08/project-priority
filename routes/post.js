@@ -13,7 +13,6 @@ router.get('/clients', async (req, res) => {
   
   try {
     const posts = await Post.find({"product": req.session.productDbId}).populate("clients").populate("comments.postedBy").exec();
-    console.log(posts)
     res.json({
       posts
     })

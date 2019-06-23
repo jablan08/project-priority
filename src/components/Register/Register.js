@@ -110,7 +110,10 @@ class Register extends Component {
         company: "",
         email: "",
         productId: "",
-        productFetch: null
+        productFetch: null,
+        nofind: "",
+        errorMsgClient: "",
+        errorMsgProduct: ""
     }  
     handleChange = (e) =>
         this.setState({
@@ -135,11 +138,20 @@ class Register extends Component {
                     this.props.setCurrentUser(parsedResponse.newProduct)
             
                     this.setState({
-                        logged: true
+                        logged: true,
+                        errorMsgProduct: ""
                     })
                 }
         } catch (error) {
-            console.log(error)
+            if (error.code === 11000) {
+                this.setState({
+                    errorMsgProduct: "This email has already registered. Please enter a different email."
+                })
+            } else if (error.name === "ValidationError" ){
+                this.setState({
+                    errorMsgProduct: "Please fill out all required fields."
+                })
+            }
         }
     }
     showProductForm = () =>
@@ -167,11 +179,14 @@ class Register extends Component {
             console.log(parsedResponse)
             if (parsedResponse) {
                 this.setState({
-                    productFetch: parsedResponse.product.name  
+                    productFetch: parsedResponse.product.name,
+                    noFind: ""  
                 })
             }
         } catch (error) {
-            
+            this.setState({
+                noFind: "There was an error. We could not find a product with that ID."
+            })
         }
     }    
     handleClientSubmit = async (e) => {
@@ -200,17 +215,26 @@ class Register extends Component {
                     localStorage.setItem("user", JSON.stringify(parsedResponse.newClient));
                     this.props.setCurrentUser(parsedResponse.newClient)
                     this.setState({
-                        logged: true
+                        logged: true,
+                        errorMsgClient: ""
+                    })
+                } else if (parsedResponse.error.code === 11000) {
+                    this.setState({
+                        errorMsgClient: "This email has already registered. Please enter a different email."
+                    })
+                } else if (parsedResponse.error.name === "ValidationError" ){
+                    this.setState({
+                        errorMsgClient: "Please fill out all required fields."
                     })
                 }
         } catch (error) {
-            console.log(error)
+           
         }
     }
     
     render() { 
         
-        const { name, password, logged, client, product, productFetch, email, role, company } = this.state
+        const { name, password, logged, client, product, productFetch, email, role, company, noFind, errorMsgClient, errorMsgProduct } = this.state
         return ( 
             <RegisterContainer>
                 <MainBox>
@@ -236,6 +260,7 @@ class Register extends Component {
                                     name = {name}
                                     password = {password}
                                     email = {email}
+                                    errorMsgProduct={errorMsgProduct}
                                 />
                             : client && productFetch !== null
                                 ? logged
@@ -251,6 +276,7 @@ class Register extends Component {
                                     role = {role}
                                     company = {company}
                                     productFetch = {productFetch}
+                                    errorMsgClient={errorMsgClient}
                                     />
                                 
                                 : client
@@ -258,6 +284,7 @@ class Register extends Component {
                                 <GetProductForm
                                 handleChange = {this.handleChange}
                                 handleGetProduct = {this.handleGetProduct}
+                                noFind={noFind}
                                 
                                 />
                         }
@@ -267,8 +294,12 @@ class Register extends Component {
          );
     }
 }
- const ProductRegisterForm = ({handleChange, handleProductSubmit, name, password, email}) =>
+ const ProductRegisterForm = ({handleChange, handleProductSubmit, name, password, email, errorMsgProduct}) =>
     <form onSubmit={e => handleProductSubmit(e)}>
+        {
+            errorMsgProduct
+            && <h3 style={{textAlign: "center", color: "red"}}> {errorMsgProduct}</h3>
+        }
         <label className="label-tag" htmlFor="name">Name</label>
         <input className="input-box" type="text" name="name" onChange={handleChange} value={name}/>
         <label className="label-tag" htmlFor="password">Password</label>
@@ -278,10 +309,14 @@ class Register extends Component {
         <button type="submit" className="button-submit"> Submit <FontAwesomeIcon size="lg" icon={faSignInAlt}/></button>
     </form>
     
- const ClientRegisterForm = ({handleChange, handleClientSubmit, name, password, role, company, email, productFetch}) =>
+ const ClientRegisterForm = ({handleChange, handleClientSubmit, name, password, role, company, email, productFetch, errorMsgClient}) =>
     <>
     <h2 className="sign-box">You are registering for <span className="product-span">{productFetch}</span></h2>
     <form className="product-get-form" onSubmit={e => handleClientSubmit(e)}>
+        {
+            errorMsgClient
+            && <h3 style={{textAlign: "center", color: "red"}}> {errorMsgClient}</h3>
+        }
         <label className="label-tag" htmlFor="name">Name</label>
         <input className="input-box" type="text" name="name" onChange={handleChange} value={name}/>
         <label className="label-tag" htmlFor="password">Password</label>
@@ -296,11 +331,15 @@ class Register extends Component {
     </form>
     </>
 
-const GetProductForm = ({handleChange, handleGetProduct}) =>
+const GetProductForm = ({handleChange, handleGetProduct, noFind}) =>
     <form className="product-get-form" onSubmit={e => handleGetProduct(e)}>
         <label className="label-tag" htmlFor="productId"> Enter the unique product ID of that your product is using! </label>
         <input className="input-box-get" type="text" name="productId" onChange={handleChange}/>
         <button type="submit" className="button-submit"> Submit <FontAwesomeIcon size="lg" icon={faSignInAlt}/></button>
+        {
+            noFind
+            && <h3 style={{textAlign: "center", color: "red"}}> {noFind}</h3>
+        }
     </form>
 
 

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs")
 
 const ClientSchema = new mongoose.Schema({
-    name: {type: String, unique: true},
+    name: {type: String, required: true, unique: false},
     password: {type: String, required: true},
     role: String,
     product: {

@@ -73,15 +73,11 @@ router.delete('/:id', async (req, res) => {
 router.post('/new', async (req, res) => {
   try {
     
-    console.log(req.body)
     const findProduct = await Product.findById(req.body.product)
     req.body.product = findProduct
     const newClient = await Client.create(req.body) 
-    console.log(newClient,"======")
     findProduct.clients.push(newClient)
-    // console.log(findProduct, "]]]]]]]")
     findProduct.save()
-    // console.log(findProduct,"++++")
     req.session.logged = true;
     req.session.email = req.body.email;
     req.session.userDbId = newClient._id;
