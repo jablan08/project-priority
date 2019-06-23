@@ -193,7 +193,7 @@ const Home = () =>
                     </ul>
                 </div>
                 <div className="img-side">
-                    <img className="img-tag" src="/imgs/feature-manage-pp.png" alt="feature request"></img>
+                    <img className="img-tag" src="/imgs/PPcomments.png" alt="feature request"></img>
                 </div>
 
             </div>
@@ -215,7 +215,7 @@ const Home = () =>
                     </ul>
                 </div>
                 <div className="img-side">
-                    <img className="img-tag" src="/imgs/vote-placeholder.png" alt="Vote example"></img>
+                    <img className="img-tag" src="/imgs/PPvotingonly.png" alt="Vote example"></img>
                 </div>
 
             </div>
