@@ -237,7 +237,7 @@ class Register extends Component {
                                     password = {password}
                                     email = {email}
                                 />
-                            : client && productFetch
+                            : client && productFetch !== null
                                 ? logged
                                     ? 
                                     <Redirect to={`/clients/home/${this.props.currentUser._id}`}/>
@@ -272,7 +272,7 @@ class Register extends Component {
         <label className="label-tag" htmlFor="name">Name</label>
         <input className="input-box" type="text" name="name" onChange={handleChange} value={name}/>
         <label className="label-tag" htmlFor="password">Password</label>
-        <input className="input-box" type="password" name="password" onChange={handleChange}value={password}/>
+        <input className="input-box" type="password" name="password" onChange={handleChange}value={password} autoComplete=""/>
         <label className="label-tag" htmlFor="email">Email</label>
         <input className="input-box" type="email" name="email" onChange={handleChange}value={email}/>
         <button type="submit" className="button-submit"> Submit <FontAwesomeIcon size="lg" icon={faSignInAlt}/></button>
@@ -285,7 +285,7 @@ class Register extends Component {
         <label className="label-tag" htmlFor="name">Name</label>
         <input className="input-box" type="text" name="name" onChange={handleChange} value={name}/>
         <label className="label-tag" htmlFor="password">Password</label>
-        <input className="input-box" type="password" name="password" onChange={handleChange}value={password}/>
+        <input className="input-box" type="password" name="password" onChange={handleChange}value={password} autoComplete=""/>
         <label className="label-tag" htmlFor="role">Role</label>
         <input className="input-box" type="text" name="role" onChange={handleChange} value={role}/>
         <label className="label-tag" htmlFor="company">Company</label>

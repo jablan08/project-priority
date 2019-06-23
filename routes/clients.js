@@ -73,17 +73,25 @@ router.delete('/:id', async (req, res) => {
 router.post('/new', async (req, res) => {
   try {
     
+    console.log(req.body)
     const findProduct = await Product.findById(req.body.product)
     req.body.product = findProduct
     const newClient = await Client.create(req.body) 
+    console.log(newClient,"======")
     findProduct.clients.push(newClient)
+    // console.log(findProduct, "]]]]]]]")
     findProduct.save()
+    // console.log(findProduct,"++++")
+    req.session.logged = true;
+    req.session.email = req.body.email;
+    req.session.userDbId = newClient._id;
+    req.session.productDbId = newClient.product._id;
     res.json({
       newClient,
       success: newClient ? true : false
     })
   } catch (error) {
-    res.json(error)
+    res.json({error})
   } 
 });
 
@@ -98,28 +106,5 @@ router.post('/logout', (req, res) => {
 })
 
 
-router.post("/add", async (req,res)=> {
-  try {
-    const foundUser = await Client.findById(req.session.userDbId)
-
-    const team ={
-      title:req.body.name,
-      image:req.body.image_url,
-      id: req.body.id
-
-    }
-    foundUser.watchList.push(team)
-    await foundUser.save()
-    res.json({
-      updatedUser: foundUser,
-      success: true,
-      message: "Add to watch list!"
-    })
-  } catch (error) {
-    res.json({
-      error
-    })
-  }
-})
 
 module.exports = router;

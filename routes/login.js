@@ -21,8 +21,7 @@ router.post("/", async (req,res) =>{
               req.session.email = req.body.email;
               req.session.userDbId = foundClient._id;
               req.session.productDbId = foundClient.product
-              console.log(req.session)
-              console.log(foundClient.product, "=======")
+            
               res.json({
                   user: foundClient,
                   status: 200,
@@ -35,7 +34,6 @@ router.post("/", async (req,res) =>{
               })
           }
         } else if (foundProduct) {
-            console.log(foundProduct)
             if (foundProduct.validPassword(req.body.password)) {
               req.session.logged = true;
               req.session.email = req.body.email;
@@ -65,19 +63,7 @@ router.post("/", async (req,res) =>{
         })
     }
 })
-// CREATE
-// router.post('/new', async (req, res) => {
-//     try {
-//       const newUser = await Client.create(req.body)
-//       res.json({
-//         newUser,
-//         success: newUser ? true : false
-//       })
-      
-//     } catch (error) {
-//       res.json(error)
-//     } 
-//   });
+
 
 router.post('/logout', (req, res) => {
     req.session.destroy((err) => {

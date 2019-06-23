@@ -58,15 +58,7 @@ router.delete('/:id', async (req, res) => {
     console.log(error)
   }
 })
-// DELETE USER
-// router.delete('/:id', async (req, res) => {
-//   try {
-//     const deletedProduct = await Product.findByIdAndRemove(req.params.id);  
-//     res.json({deletedProduct})  
-//     } catch (error) {
-//       res.json({error})
-//     }
-// });
+
 
 router.post('/new', async (req, res) => {
   try {
@@ -94,45 +86,7 @@ router.post('/logout', (req, res) => {
 })
 
 
-// ADD TO WATCHLIST
-router.post("/add", async (req,res)=> {
-  try {
-    const foundUser = await Product.findById(req.session.userDbId)
 
-    const team ={
-      title:req.body.name,
-      image:req.body.image_url,
-      id: req.body.id
-
-    }
-    foundUser.watchList.push(team)
-    await foundUser.save()
-    res.json({
-      updatedUser: foundUser,
-      success: true,
-      message: "Add to watch list!"
-    })
-  } catch (error) {
-    console.log(error)
-  }
-})
-
-
-// DELETE FROM WATCHLIST
-router.delete('/watchlist/:id', async (req, res) => {
-  try {
-    const foundUser = await Product.findById(req.session.userDbId);
-   
-    foundUser.watchList.splice(req.params.id,1)
-    await foundUser.save();
-    
-    res.json({
-      foundUser
-    });
-  } catch(err) {
-    res.send(err)
-  }
-});
 
 router.post('/logout', (req, res) => {
   req.session.destroy((err) => {

@@ -90,7 +90,7 @@ class ClientHome extends Component {
         })
     } 
     sortPost = (a,b) =>
-        a.votes.length > b.votes.length  ? -1 : b.votes.length  > a.votes.length ? 1 : 0;
+        a.votes.length > b.votes.length  ? - 1 : b.votes.length  > a.votes.length ? 1 : 0;
     
     handleGetPost = async () => {
         try {
@@ -249,13 +249,6 @@ class ClientHome extends Component {
         } catch (error) {
             console.log(error)
         }
-    }
-    loadPost =()=> {
-        this.handleGetPost().then(allData =>{
-            this.setState({
-                post: allData.sort(this.sortPost)
-            })
-        })
     }
     handleDeleteComment = async (id, index, cId) => {
         console.log(this.state.post[this.state.post.findIndex(i => i._id === id)].comments.filter(d => d._id !== cId))
