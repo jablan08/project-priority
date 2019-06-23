@@ -9,11 +9,6 @@ To see examples of this app offers use:
 Email: pp@pp.com
 Password: 1
 
-## Planning & Wireframes
-
-### The follwing [user stories](https://raw.githubusercontent.com/jablan08/LingoConnect_frontend/josh/src/components/resources/LC_user_stories.png) were considered when developing LingoConnect.
-
-
 
 ## Future development
 * Have the ability to show what features are currently being built.
@@ -39,4 +34,3 @@ Password: 1
 * Postman
 * FontAwesome
 * Google Fonts
-* Photoshop
