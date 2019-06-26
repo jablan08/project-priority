@@ -56,7 +56,8 @@ class ClientHome extends Component {
         newFeature: false,
         selectedComment: "",
         selectedPost: "",
-        selectedEdit: ""
+        selectedEdit: "",
+        error: ""
     }
 
     componentDidMount() {
@@ -79,7 +80,9 @@ class ClientHome extends Component {
                 return parsedResponse
             }
         } catch (error) {
-            console.log(error)
+            this.setState({
+                error: "There was an error in processing this action."
+              })
         }
     }
     handleNewPost = (post)=>{
@@ -105,7 +108,9 @@ class ClientHome extends Component {
                 return parsedResponse.posts
             }
         } catch (error) {
-            console.log(error)
+            this.setState({
+                error: "There was an error in processing this action."
+              })
         }
     }
     handleDeletePost = async id => {
@@ -120,7 +125,9 @@ class ClientHome extends Component {
             });
             return response;
         } catch (error) {
-            console.log(error);
+            this.setState({
+                error: "There was an error in processing this action."
+            })
         }
     };
     handleVotes = async (id, index) => {
@@ -145,7 +152,9 @@ class ClientHome extends Component {
                 })
             }
         } catch (error) {
-            console.log(error)
+            this.setState({
+                error: "There was an error in processing this action."
+              })
         }
     }
 
@@ -170,7 +179,6 @@ class ClientHome extends Component {
             })
             const response = await postComment.json()
             if (response.success) {
-                console.log(response)
                 let postArray = [...this.state.post]
                 postArray[index] = response.postComment
                 this.setState({
@@ -179,7 +187,9 @@ class ClientHome extends Component {
                 })
             }
         } catch (error) {
-            console.log(error)
+            this.setState({
+                error: "There was an error in processing this action."
+            })
         }
 
     }
@@ -237,7 +247,6 @@ class ClientHome extends Component {
             })
             const response = await postComment.json()
             if (response.success) {
-                console.log(response)
                 let postArray = [...this.state.post]
                 postArray[index] = response.postComment
                 this.setState({
@@ -247,11 +256,13 @@ class ClientHome extends Component {
             }
             
         } catch (error) {
-            console.log(error)
+            this.setState({
+                error: "There was an error in processing this action."
+              })
         }
     }
     handleDeleteComment = async (id, index, cId) => {
-        console.log(this.state.post[this.state.post.findIndex(i => i._id === id)].comments.filter(d => d._id !== cId))
+        
         try {
             const obj = {
                 commentId: cId
@@ -266,7 +277,6 @@ class ClientHome extends Component {
             })
             const response = await deleteComment.json();
             if (response.success) {
-                console.log(response)
                 let postArray = [...this.state.post]
                 postArray[index] = response.postDeletedComment
                 this.setState({
@@ -275,13 +285,14 @@ class ClientHome extends Component {
             }
             
         } catch (error) {
-            console.log(error)
+            this.setState({
+                error: "There was an error in processing this action."
+              })
         }
     }
 
     render() { 
         const { post, text, editComment, postComment, showComment, newFeature, selectedComment, selectedPost, selectedEdit } = this.state
-        console.log(this.state)
         const { currentUser } = this.props
         return ( 
             <Container>

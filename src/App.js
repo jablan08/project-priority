@@ -17,6 +17,7 @@ import Register from "./components/Register/Register";
 class App extends Component {
   state = {
     currentUser: {}
+    error: ""
   }
   componentDidMount() {
     const current = localStorage.getItem("user");
@@ -63,7 +64,9 @@ class App extends Component {
     })
     return response;
     } catch (error) {
-    console.log(error);
+      this.setState({
+        error: "There was an error in processing this action."
+      })
     }
   };
   render() { 

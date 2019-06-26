@@ -55,16 +55,15 @@ router.delete('/:id', async (req, res) => {
     await Client.deleteMany({_id: { $in: deletedProduct.clients }})
     res.json(deletedProduct)
   } catch (error) {
-    console.log(error)
+    res.json({error})
   }
 })
 
 
 router.post('/new', async (req, res) => {
   try {
-    console.log(req.body)
+
     const newProduct = await Product.create(req.body)
-    console.log(newProduct)
     res.json({
       newProduct,
       success: newProduct ? true : false
