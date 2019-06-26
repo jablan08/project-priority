@@ -49,8 +49,7 @@ router.get("/:id", async (req,res)=>{
 
 // EDIT
 router.put('/votes/:id', async (req, res) => {
-  console.log(req.body, "body")
-  console.log(req.body.client, "body")
+
   try {
     const votePost = await Post.findById(req.params.id).populate("clients").populate("comments.postedBy").exec();
 
@@ -79,7 +78,7 @@ router.put("/comments/:id", async (req,res) => {
       success: postComment ? true : false
     })
   } catch (error) {
-    console.log(error)
+    res.json({error})
   }
 })
 
@@ -95,7 +94,7 @@ router.put("/comments/edit/:id", async (req,res) => {
       success: postComment ? true : false
     })
   } catch (error) {
-    console.log(error)
+    res.json({error})
   }
 })
 
@@ -121,33 +120,22 @@ router.delete('/:id', async (req, res) => {
 router.put("/comments/delete/:id", async (req, res) => {
   try {
     const postDeletedComment = await Post.findById(req.params.id).populate("clients").populate("comments.postedBy").exec();
-    // postDeletedComment.comments[postDeletedComment.comments.findIndex(i => i._id == req.body.commentId)]
-    console.log(postDeletedComment.comments.findIndex(i => i._id == req.body.commentId))
-    console.log(req.body)
-    // postDeletedComment.comments.filter(d => d._id !== req.body.commentId)
+    (postDeletedComment.comments.findIndex(i => i._id == req.body.commentId))
     postDeletedComment.comments.splice(postDeletedComment.comments.findIndex(i => i._id == req.body.commentId),1)
     postDeletedComment.save()
-    // console.log(postDeletedComment)
     res.json({
       postDeletedComment,
       success: postDeletedComment ? true : false
     })
   } catch (error) {
-    console.log(error)
+    res.json({error})
   }
 })
 
 router.post('/new', async (req, res) => {
   try {
-    // req.body.clients=[]
-    // req.body.product =[]
-    console.log(req.body)
-    console.log(req.body.currentUser)
-    // console.log(req.session)
     const findClient = await Client.findById(req.body.currentUser._id)
-    console.log(findClient, "foundclient==========================")
     const findProduct = await Product.findById(req.body.currentUser.product)
-    console.log(findProduct, "foundProducy================")
     req.body.clients = findClient
     req.body.product = findProduct
     const newPost =  await Post.create(req.body)
