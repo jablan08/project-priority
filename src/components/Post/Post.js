@@ -44,7 +44,8 @@ const PostForm = styled.div`
 class Post extends Component {
     state = { 
         title: "",
-        text: ""
+        text: "",
+        error: ""
     }
     handleChange = (e) =>
     this.setState({
@@ -69,10 +70,7 @@ handleSubmit = async (e) => {
             }
         })
         const parsedResponse = await post.json();
-        console.log(parsedResponse, "response of post")
-        console.log(parsedResponse.newPost, "response of post")
         if (parsedResponse.success) {
-            console.log("worked")
             this.props.handleNewPost(parsedResponse.findPost);
             this.props.handleCloseFeature();
             this.setState({
@@ -81,7 +79,9 @@ handleSubmit = async (e) => {
             })
         }
     } catch (error) {
-        console.log(error)
+        this.setState({
+            error: "There was an error processing your request."
+        })
     }
 }
 

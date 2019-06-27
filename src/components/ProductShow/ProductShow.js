@@ -81,7 +81,8 @@ class ProductShow extends Component {
         product: {},
         email: "",
         name: "",
-        password: ""
+        password: "",
+        error: ""
     };
     componentDidMount() {
         this.handleGetProduct().then(allData => {
@@ -94,7 +95,6 @@ class ProductShow extends Component {
     
 
     handleChange = e => {
-        console.log(this.state)
         this.setState({
             [e.target.name]: e.target.value
         });
@@ -125,14 +125,14 @@ class ProductShow extends Component {
                 }
             );
         const response = await editProduct.json();
-        console.log(response,"=======")
-        console.log(response.editedProduct,"=======")
         this.props.setCurrentUser(response.editedProduct);
         this.setState({
             password: ""
         });
         } catch (error) {
-            console.log(error);
+            this.setState({
+                error: "There was an error processing your request."
+            })
         }
     };
     handleGetProduct = async () => {
@@ -148,14 +148,15 @@ class ProductShow extends Component {
                 return parsedResponse.product
             }
         } catch (error) {
-            console.log(error)
+            this.setState({
+                error: "There was an error processing your request."
+            })
         }
     }
 
   render() {
     const { email, name, product } = this.state;
     const { currentUser } = this.props
-    console.log(product)
     return (
         <>
             <RegisterContainer>

@@ -134,7 +134,6 @@ class Register extends Component {
                 }
             })
             const parsedResponse = await createProduct.json();
-            console.log(parsedResponse)
                 if (parsedResponse.success) {
                     localStorage.setItem("user", JSON.stringify(parsedResponse.newProduct));
                     this.props.setCurrentUser(parsedResponse.newProduct)
@@ -184,7 +183,7 @@ class Register extends Component {
                 }
             })
             const parsedResponse = await getProduct.json()
-            console.log(parsedResponse)
+
             if (parsedResponse) {
                 this.setState({
                     productFetch: parsedResponse.product.name,
@@ -218,7 +217,7 @@ class Register extends Component {
                 }
             })
             const parsedResponse = await createClient.json();
-            console.log(parsedResponse)
+
                 if (parsedResponse.success) {
                     localStorage.setItem("user", JSON.stringify(parsedResponse.newClient));
                     this.props.setCurrentUser(parsedResponse.newClient)
