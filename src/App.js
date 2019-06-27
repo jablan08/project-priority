@@ -16,7 +16,7 @@ import Register from "./components/Register/Register";
 
 class App extends Component {
   state = {
-    currentUser: {}
+    currentUser: {},
     error: ""
   }
   componentDidMount() {
