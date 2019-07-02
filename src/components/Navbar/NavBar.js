@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 import * as routes from "../../constants/routes"
-import "./NavBar.css"
 import styled from "styled-components";
 
 const StyledNav = styled.div`

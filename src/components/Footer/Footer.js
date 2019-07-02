@@ -6,7 +6,10 @@ const FootContainer = styled.div`
     justify-content: center;
     border-top: 1px solid #efefef;
     padding: 1.5rem 0;
-
+    a {
+        text-decoration: none;
+        color: rgb(65,105,225);
+    }
 `
 
 
