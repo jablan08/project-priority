@@ -1,5 +1,5 @@
 # Project Priority
-
+## This project was inspired from the idea of [Canny](https://canny.io/) and was purely made for educational purposes.
 Prioritize what clients want by use of a voting system! Project Priority was built for business to business communication and feedback with the client's satisfaction in mind. Clients are able to make feature request based on what their needs are, and everyone registered under the same product can vote on what features they want the most. Businesses are then able to see what the majority wants and prioritize what they should be working on next!  
 
 ## Start Prioritizing Now!
