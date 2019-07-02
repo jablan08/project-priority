@@ -156,7 +156,7 @@ class ClientShow extends Component {
     }
 
   render() {
-    const { email, name, clients } = this.state;
+    const { email, name } = this.state;
     const { currentUser } = this.props
     return (
       <>

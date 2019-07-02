@@ -155,7 +155,7 @@ class ProductShow extends Component {
     }
 
   render() {
-    const { email, name, product } = this.state;
+    const { email, name } = this.state;
     const { currentUser } = this.props
     return (
         <>

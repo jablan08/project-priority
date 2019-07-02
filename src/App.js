@@ -9,6 +9,7 @@ import ClientHome from "./components/ClientHome/ClientHome"
 import ClientShow from "./components/ClientShow/ClientShow"
 import ProductShow from "./components/ProductShow/ProductShow"
 import Home from "./components/Home/Home"
+import Footer from "./components/Footer/Footer"
 
 import './App.css';
 import Register from "./components/Register/Register";
@@ -85,6 +86,7 @@ class App extends Component {
           <Route exact path={routes.LOGIN} render={()=> <Login currentUser={currentUser} setCurrentUser={this.setCurrentUser}/>} />
           <Route render={()=> <div>You're LOST</div>}/>
         </Switch>
+        <Footer/>
       </>
     );
   }
